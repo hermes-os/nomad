@@ -52,6 +52,8 @@ export async function ensureDirectoryExists(path: string): Promise<void> {
   } catch (error) {
     if (error.code === 'ENOENT') {
       await mkdir(path, { recursive: true })
+    } else {
+      throw error
     }
   }
 }
