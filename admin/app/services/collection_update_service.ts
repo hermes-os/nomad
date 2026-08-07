@@ -4,7 +4,7 @@ import axios from 'axios'
 import InstalledResource from '#models/installed_resource'
 import { RunDownloadJob } from '../jobs/run_download_job.js'
 import { ZIM_STORAGE_PATH } from '../utils/fs.js'
-import { join } from 'path'
+import { join, resolve, sep } from 'path'
 import type {
   ResourceUpdateCheckRequest,
   ResourceUpdateInfo,
@@ -82,6 +82,15 @@ export class CollectionUpdateService {
   async applyUpdate(
     update: ResourceUpdateInfo
   ): Promise<{ success: boolean; jobId?: string; error?: string }> {
+    const filename = this.buildFilename(update)
+    const filepath = this.buildFilepath(update, filename)
+    if (!filepath) {
+      return {
+        success: false,
+        error: `Invalid resource id or version for ${update.resource_id}`,
+      }
+    }
+
     // Check if a download is already in progress for this URL
     const existingJob = await RunDownloadJob.getByUrl(update.download_url)
     if (existingJob) {
@@ -93,9 +102,6 @@ export class CollectionUpdateService {
         }
       }
     }
-
-    const filename = this.buildFilename(update)
-    const filepath = this.buildFilepath(update, filename)
 
     const result = await RunDownloadJob.dispatch({
       url: update.download_url,
@@ -148,10 +154,22 @@ export class CollectionUpdateService {
     return `${update.resource_id}_${update.latest_version}.pmtiles`
   }
 
-  private buildFilepath(update: ResourceUpdateInfo, filename: string): string {
-    if (update.resource_type === 'zim') {
-      return join(process.cwd(), ZIM_STORAGE_PATH, filename)
+  /**
+   * Resolve the download destination, or null when the resource id or version
+   * would place the file outside its storage directory. Both values arrive in
+   * request payloads, so they can never be trusted as path segments.
+   */
+  private buildFilepath(update: ResourceUpdateInfo, filename: string): string | null {
+    const baseDir =
+      update.resource_type === 'zim'
+        ? resolve(join(process.cwd(), ZIM_STORAGE_PATH))
+        : resolve(join(process.cwd(), MAP_STORAGE_PATH, 'pmtiles'))
+
+    const fullPath = resolve(join(baseDir, filename))
+    if (!fullPath.startsWith(baseDir + sep)) {
+      return null
     }
-    return join(process.cwd(), MAP_STORAGE_PATH, 'pmtiles', filename)
+
+    return fullPath
   }
 }
