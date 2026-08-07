@@ -139,14 +139,12 @@ export class ContainerRegistryService {
         allTags.push(...data.tags)
       }
 
-      // Handle pagination via Link header
+      // Handle pagination via Link header. Registries emit a path-relative target
+      // (e.g. "</v2/ns/repo/tags/list?n=1000&last=...>"), which fetch cannot resolve
+      // on its own, so resolve it against the URL that produced the header.
       const linkHeader = response.headers.get('link')
-      if (linkHeader) {
-        const match = linkHeader.match(/<([^>]+)>;\s*rel="next"/)
-        url = match ? match[1] : ''
-      } else {
-        url = ''
-      }
+      const match = linkHeader?.match(/<([^>]+)>;\s*rel="next"/)
+      url = match ? new URL(match[1], url).toString() : ''
     }
 
     return allTags
