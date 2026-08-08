@@ -3,7 +3,6 @@ import { QueueService } from '#services/queue_service'
 import { DockerService } from '#services/docker_service'
 import { SystemService } from '#services/system_service'
 import logger from '@adonisjs/core/services/logger'
-import KVStore from '#models/kv_store'
 
 export class CheckUpdateJob {
   static get queue() {
@@ -21,14 +20,19 @@ export class CheckUpdateJob {
     const systemService = new SystemService(dockerService)
 
     try {
-      const result = await systemService.checkLatestVersion()
+      // Must be forced: an unforced check returns the very cache this job refreshes,
+      // which would leave the cached values untouched forever.
+      const result = await systemService.checkLatestVersion(true)
+
+      if (!result.success) {
+        throw new Error(result.message || 'Version check did not complete')
+      }
 
       if (result.updateAvailable) {
         logger.info(
           `[CheckUpdateJob] Update available: ${result.currentVersion} → ${result.latestVersion}`
         )
       } else {
-        await KVStore.setValue('system.updateAvailable', false)
         logger.info(
           `[CheckUpdateJob] System is up to date (${result.currentVersion})`
         )
