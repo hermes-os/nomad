@@ -19,14 +19,32 @@ export function assertNotPrivateUrl(urlString: string): void {
     /^localhost$/,
     /^127\.\d+\.\d+\.\d+$/,
     /^0\.0\.0\.0$/,
+    /^\[::\]$/, // IPv6 unspecified address, reaches loopback like 0.0.0.0
     /^169\.254\.\d+\.\d+$/, // Link-local / cloud metadata
     /^\[::1\]$/,
     /^\[?fe80:/i, // IPv6 link-local
   ]
 
-  if (blockedPatterns.some((re) => re.test(hostname))) {
+  const candidate = unwrapIpv4MappedHost(hostname)
+
+  if (blockedPatterns.some((re) => re.test(candidate))) {
     throw new Error(`Download URL must not point to a loopback or link-local address: ${hostname}`)
   }
+}
+
+/**
+ * IPv4-mapped IPv6 hosts (`::ffff:a.b.c.d`) reach the embedded IPv4 address through
+ * the socket layer, and the URL parser normalizes them to hex groups
+ * (`[::ffff:7f00:1]`), so the dotted-quad rules above never match. Rewrite them back
+ * to dotted-quad form; leave every other hostname untouched.
+ */
+function unwrapIpv4MappedHost(hostname: string): string {
+  const match = hostname.match(/^\[::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})\]$/)
+  if (!match) return hostname
+
+  const high = Number.parseInt(match[1], 16)
+  const low = Number.parseInt(match[2], 16)
+  return [high >> 8, high & 0xff, low >> 8, low & 0xff].join('.')
 }
 
 export const remoteDownloadValidator = vine.compile(
