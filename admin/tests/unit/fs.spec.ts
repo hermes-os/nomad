@@ -1,5 +1,5 @@
 import { test } from '@japa/runner'
-import { ensureDirectoryExists } from '../../app/utils/fs.js'
+import { ensureDirectoryExists, resolveWithinDirectory } from '../../app/utils/fs.js'
 import { mkdir, rmdir, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -39,5 +39,29 @@ test.group('ensureDirectoryExists', () => {
     assert.rejects(async () => {
       await ensureDirectoryExists(veryLongPath)
     })
+  })
+})
+
+test.group('resolveWithinDirectory', () => {
+  test('resolves a plain name inside the directory', ({ assert }) => {
+    assert.equal(
+      resolveWithinDirectory('/storage/zim', 'wikipedia_2025-06.zim'),
+      join('/storage/zim', 'wikipedia_2025-06.zim')
+    )
+  })
+
+  test('allows a name that resolves to a subdirectory of the base', ({ assert }) => {
+    assert.equal(
+      resolveWithinDirectory('/storage/zim', 'sub/wikipedia_2025-06.zim'),
+      join('/storage/zim', 'sub', 'wikipedia_2025-06.zim')
+    )
+  })
+
+  test('returns null when the name escapes the directory', ({ assert }) => {
+    assert.isNull(resolveWithinDirectory('/storage/zim', '../../etc/passwd'))
+  })
+
+  test('returns null when the name resolves to the base directory itself', ({ assert }) => {
+    assert.isNull(resolveWithinDirectory('/storage/zim', '.'))
   })
 })

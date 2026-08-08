@@ -6,6 +6,20 @@ import { LSBlockDevice, NomadDiskInfoRaw } from '../../types/system.js'
 
 export const ZIM_STORAGE_PATH = '/storage/zim'
 
+/**
+ * Resolve `name` against `baseDir` and return the absolute path, or null when
+ * the resolved path escapes the directory. Use for any file name that arrives
+ * in a request payload.
+ */
+export function resolveWithinDirectory(baseDir: string, name: string): string | null {
+  const base = path.resolve(baseDir)
+  const fullPath = path.resolve(join(base, name))
+  if (!fullPath.startsWith(base + path.sep)) {
+    return null
+  }
+  return fullPath
+}
+
 export async function listDirectoryContents(path: string): Promise<FileEntry[]> {
   const entries = await readdir(path, { withFileTypes: true })
   const results: FileEntry[] = []
