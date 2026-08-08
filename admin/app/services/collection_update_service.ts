@@ -3,8 +3,8 @@ import env from '#start/env'
 import axios from 'axios'
 import InstalledResource from '#models/installed_resource'
 import { RunDownloadJob } from '../jobs/run_download_job.js'
-import { ZIM_STORAGE_PATH } from '../utils/fs.js'
-import { join, resolve, sep } from 'path'
+import { resolveWithinDirectory, ZIM_STORAGE_PATH } from '../utils/fs.js'
+import { basename, join } from 'path'
 import type {
   ResourceUpdateCheckRequest,
   ResourceUpdateInfo,
@@ -157,19 +157,20 @@ export class CollectionUpdateService {
   /**
    * Resolve the download destination, or null when the resource id or version
    * would place the file outside its storage directory. Both values arrive in
-   * request payloads, so they can never be trusted as path segments.
+   * request payloads, so they can never be trusted as path segments. The name
+   * must also stay a single segment: a separator inside it would resolve to a
+   * subdirectory the download job never creates.
    */
   private buildFilepath(update: ResourceUpdateInfo, filename: string): string | null {
     const baseDir =
       update.resource_type === 'zim'
-        ? resolve(join(process.cwd(), ZIM_STORAGE_PATH))
-        : resolve(join(process.cwd(), MAP_STORAGE_PATH, 'pmtiles'))
+        ? join(process.cwd(), ZIM_STORAGE_PATH)
+        : join(process.cwd(), MAP_STORAGE_PATH, 'pmtiles')
 
-    const fullPath = resolve(join(baseDir, filename))
-    if (!fullPath.startsWith(baseDir + sep)) {
+    if (filename !== basename(filename)) {
       return null
     }
 
-    return fullPath
+    return resolveWithinDirectory(baseDir, filename)
   }
 }

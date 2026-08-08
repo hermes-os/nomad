@@ -92,6 +92,27 @@ test.group('CollectionUpdateService.applyUpdate', (group) => {
     )
 
     assert.isFalse(result.success)
+    assert.match(result.error!, /Invalid resource id or version/)
+    assert.isEmpty(queue.dispatched)
+  })
+
+  test('rejects a resource id that resolves to a subdirectory of storage', async ({ assert }) => {
+    const result = await new CollectionUpdateService().applyUpdate(
+      makeUpdate({ resource_id: 'wikipedia/en_all_maxi' })
+    )
+
+    assert.isFalse(result.success)
+    assert.match(result.error!, /Invalid resource id or version/)
+    assert.isEmpty(queue.dispatched)
+  })
+
+  test('rejects a version that resolves to a subdirectory of storage', async ({ assert }) => {
+    const result = await new CollectionUpdateService().applyUpdate(
+      makeUpdate({ resource_type: 'map', latest_version: '2025/06' })
+    )
+
+    assert.isFalse(result.success)
+    assert.match(result.error!, /Invalid resource id or version/)
     assert.isEmpty(queue.dispatched)
   })
 })
