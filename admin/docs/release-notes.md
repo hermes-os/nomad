@@ -5,6 +5,7 @@
 ### Features
 
 ### Bug Fixes
+- **Settings**: Scheduled update checks now refresh release information instead of reading stale cached values
 - **Security**: Content update requests whose resource id or version would place the downloaded file outside content storage (including in a subdirectory that does not exist) are now rejected with an "Invalid resource id or version" error instead of being written to the requested path or failing mid-download
 
 ### Improvements
