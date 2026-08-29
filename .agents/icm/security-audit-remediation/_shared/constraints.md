@@ -5,7 +5,7 @@ Hard rules for every change made through this pipeline. From `AGENTS.md`,
 
 ## Threat model
 
-- N.O.M.A.D. is a LAN appliance with no application authentication. The network
+- Nomad is a LAN appliance with no application authentication. The network
   boundary is the access control. All 60+ API routes are unauthenticated by
   design.
 - A fix that requires auth, sessions, or CSRF infrastructure is out of scope
@@ -13,7 +13,7 @@ Hard rules for every change made through this pipeline. From `AGENTS.md`,
 - RFC1918 addresses (10.x, 172.16-31.x, 192.168.x) must stay reachable — users
   host content mirrors on their own LAN. Only loopback, unspecified, and
   link-local targets are blocked.
-- Never describe N.O.M.A.D. as safe for direct internet exposure, in code,
+- Never describe Nomad as safe for direct internet exposure, in code,
   comments, or release notes.
 
 ## Change scope

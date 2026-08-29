@@ -1,7 +1,7 @@
 <div align="center">
-<img src="https://raw.githubusercontent.com/Crosstalk-Solutions/project-nomad/refs/heads/main/admin/public/project_nomad_logo.png" width="200" height="200"/>
+<img src="https://raw.githubusercontent.com/hermes-os/nomad/refs/heads/main/admin/public/nomad_logo.png" width="200" height="200"/>
 
-# Project N.O.M.A.D.
+# Nomad
 ### Node for Offline Media, Archives, and Data
 
 **Knowledge That Never Goes Offline**
@@ -14,22 +14,22 @@
 
 ---
 
-Project N.O.M.A.D. is a self-contained, offline-first knowledge and education server packed with critical tools, knowledge, and AI to keep you informed and empowered—anytime, anywhere.
+Nomad is a self-contained, offline-first knowledge and education server packed with critical tools, knowledge, and AI to keep you informed and empowered—anytime, anywhere.
 
 ## Installation & Quickstart
-Project N.O.M.A.D. can be installed on any Debian-based operating system (we recommend Ubuntu). Installation is completely terminal-based, and all tools and resources are designed to be accessed through the browser, so there's no need for a desktop environment if you'd rather setup N.O.M.A.D. as a "server" and access it through other clients.
+Nomad can be installed on any Debian-based operating system (we recommend Ubuntu). Installation is completely terminal-based, and all tools and resources are designed to be accessed through the browser, so there's no need for a desktop environment if you'd rather setup Nomad as a "server" and access it through other clients.
 
 *Note: sudo/root privileges are required to run the install script*
 
 #### Quick Install
 ```bash
-sudo apt-get update && sudo apt-get install -y curl && curl -fsSL https://raw.githubusercontent.com/Crosstalk-Solutions/project-nomad/refs/heads/main/install/install_nomad.sh -o install_nomad.sh && sudo bash install_nomad.sh
+sudo apt-get update && sudo apt-get install -y curl && curl -fsSL https://raw.githubusercontent.com/hermes-os/nomad/refs/heads/main/install/install_nomad.sh -o install_nomad.sh && sudo bash install_nomad.sh
 ```
 
-Project N.O.M.A.D. is now installed on your device! Open a browser and navigate to `http://localhost:8080` (or `http://DEVICE_IP:8080`) to start exploring!
+Nomad is now installed on your device! Open a browser and navigate to `http://localhost:8080` (or `http://DEVICE_IP:8080`) to start exploring!
 
 ## How It Works
-N.O.M.A.D. is a management UI ("Command Center") and API that orchestrates a collection of containerized tools and resources via [Docker](https://www.docker.com/). It handles installation, configuration, and updates for everything — so you don't have to.
+Nomad is a management UI ("Command Center") and API that orchestrates a collection of containerized tools and resources via [Docker](https://www.docker.com/). It handles installation, configuration, and updates for everything — so you don't have to.
 
 **Built-in capabilities include:**
 - **AI Chat with Knowledge Base** — local AI chat powered by [Ollama](https://ollama.com/), with document upload and semantic search (RAG via [Qdrant](https://qdrant.tech/))
@@ -41,7 +41,7 @@ N.O.M.A.D. is a management UI ("Command Center") and API that orchestrates a col
 - **System Benchmark** — hardware scoring with a [community leaderboard](https://benchmark.projectnomad.us)
 - **Easy Setup Wizard** — guided first-time configuration with curated content collections
 
-N.O.M.A.D. also includes built-in tools like a Wikipedia content selector, ZIM library manager, and content explorer.
+Nomad also includes built-in tools like a Wikipedia content selector, ZIM library manager, and content explorer.
 
 ## What's Included
 
@@ -56,12 +56,12 @@ N.O.M.A.D. also includes built-in tools like a Wikipedia content selector, ZIM l
 | System Benchmark | Built-in | Hardware scoring, Builder Tags, and community leaderboard |
 
 ## Device Requirements
-While many similar offline survival computers are designed to be run on bare-minimum, lightweight hardware, Project N.O.M.A.D. is quite the opposite. To install and run the
+While many similar offline survival computers are designed to be run on bare-minimum, lightweight hardware, Nomad is quite the opposite. To install and run the
 available AI tools, we highly encourage the use of a beefy, GPU-backed device to make the most of your install.
 
-At it's core, however, N.O.M.A.D. is still very lightweight. For a barebones installation of the management application itself, the following minimal specs are required:
+At it's core, however, Nomad is still very lightweight. For a barebones installation of the management application itself, the following minimal specs are required:
 
-*Note: Project N.O.M.A.D. is not sponsored by any hardware manufacturer and is designed to be as hardware-agnostic as possible. The harware listed below is for example/comparison use only*
+*Note: Nomad is not sponsored by any hardware manufacturer and is designed to be as hardware-agnostic as possible. The harware listed below is for example/comparison use only*
 
 #### Minimum Specs
 - Processor: 2 GHz dual-core processor or better
@@ -82,17 +82,17 @@ To run LLM's and other included AI tools:
 
 **For detailed build recommendations at three price points ($200–$800+), see the [Hardware Guide](https://www.projectnomad.us/hardware).**
 
-Again, Project N.O.M.A.D. itself is quite lightweight - it's the tools and resources you choose to install with N.O.M.A.D. that will determine the specs required for your unique deployment
+Again, Nomad itself is quite lightweight - it's the tools and resources you choose to install with Nomad that will determine the specs required for your unique deployment
 
 ## About Internet Usage & Privacy
-Project N.O.M.A.D. is designed for offline usage. An internet connection is only required during the initial installation (to download dependencies) and if you (the user) decide to download additional tools and resources at a later time. Otherwise, N.O.M.A.D. does not require an internet connection and has ZERO built-in telemetry.
+Nomad is designed for offline usage. An internet connection is only required during the initial installation (to download dependencies) and if you (the user) decide to download additional tools and resources at a later time. Otherwise, Nomad does not require an internet connection and has ZERO built-in telemetry.
 
-To test internet connectivity, N.O.M.A.D. attempts to make a request to Cloudflare's utility endpoint, `https://1.1.1.1/cdn-cgi/trace` and checks for a successful response.
+To test internet connectivity, Nomad attempts to make a request to Cloudflare's utility endpoint, `https://1.1.1.1/cdn-cgi/trace` and checks for a successful response.
 
 ## About Security
-By design, Project N.O.M.A.D. is intended to be open and available without hurdles - it includes no authentication. If you decide to connect your device to a local network after install (e.g. for allowing other devices to access it's resources), you can block/open ports to control which services are exposed.
+By design, Nomad is intended to be open and available without hurdles - it includes no authentication. If you decide to connect your device to a local network after install (e.g. for allowing other devices to access it's resources), you can block/open ports to control which services are exposed.
 
-**Will authentication be added in the future?** Maybe. It's not currently a priority, but if there's enough demand for it, we may consider building in an optional authentication layer in a future release to support uses cases where multiple users need access to the same instance but with different permission levels (e.g. family use with parental controls, classroom use with teacher/admin accounts, etc.). For now, we recommend using network-level controls to manage access if you're planning to expose your N.O.M.A.D. instance to other devices on a local network. N.O.M.A.D. is not designed to be exposed directly to the internet, and we strongly advise against doing so unless you really know what you're doing, have taken appropriate security measures, and understand the risks involved.
+**Will authentication be added in the future?** Maybe. It's not currently a priority, but if there's enough demand for it, we may consider building in an optional authentication layer in a future release to support uses cases where multiple users need access to the same instance but with different permission levels (e.g. family use with parental controls, classroom use with teacher/admin accounts, etc.). For now, we recommend using network-level controls to manage access if you're planning to expose your Nomad instance to other devices on a local network. Nomad is not designed to be exposed directly to the internet, and we strongly advise against doing so unless you really know what you're doing, have taken appropriate security measures, and understand the risks involved.
 
 ## Contributing
 Contributions are welcome and appreciated! Please read this section fully to understand how to contribute to the project.
@@ -112,11 +112,11 @@ Contributions are welcome and appreciated! Please read this section fully to und
 - **Be responsive to feedback**: If the maintainers request changes or provide feedback on your pull request, please respond in a timely manner. Stale pull requests may be closed if there is no activity for an extended period.
 - **Follow the project's code of conduct**: Please adhere to the project's code of conduct when interacting with maintainers and other contributors. Be respectful and considerate in your communications.
 - **No guarantee of acceptance**: The project is community-driven, and all contributions are appreciated, but acceptance is not guaranteed. The maintainers will evaluate each contribution based on its quality, relevance, and alignment with the project's goals.
-- **Thank you for contributing to Project N.O.M.A.D.!** Your efforts help make this project better for everyone.
+- **Thank you for contributing to Nomad!** Your efforts help make this project better for everyone.
 
 ### Versioning
 This project uses semantic versioning. The version is managed in the root `package.json` 
-and automatically updated by semantic-release. For simplicity's sake, the "project-nomad" image
+and automatically updated by semantic-release. For simplicity's sake, the "nomad" image
 uses the same version defined there instead of the version in `admin/package.json` (stays at 0.0.0), as it's the only published image derived from the code.
 
 ### Release Notes
@@ -132,37 +132,38 @@ Use the format `- **Area**: Description` to stay consistent with existing entrie
 
 ## Community & Resources
 
+- **Source:** [Forgejo](https://git.ashwren.com/hermes/nomad) · [GitHub mirror](https://github.com/hermes-os/nomad)
 - **Website:** [www.projectnomad.us](https://www.projectnomad.us) - Learn more about the project
-- **Discord:** [Join the Community](https://discord.com/invite/crosstalksolutions) - Get help, share your builds, and connect with other NOMAD users
-- **Benchmark Leaderboard:** [benchmark.projectnomad.us](https://benchmark.projectnomad.us) - See how your hardware stacks up against other NOMAD builds
+- **Discord:** [Join the Community](https://discord.com/invite/crosstalksolutions) - Get help, share your builds, and connect with other Nomad users
+- **Benchmark Leaderboard:** [benchmark.projectnomad.us](https://benchmark.projectnomad.us) - See how your hardware stacks up against other Nomad builds
 
 ## License
 
-Project N.O.M.A.D. is licensed under the [Apache License 2.0](LICENSE).
+Nomad is licensed under the [Apache License 2.0](LICENSE).
 
 ## Helper Scripts
-Once installed, Project N.O.M.A.D. has a few helper scripts should you ever need to troubleshoot issues or perform maintenance that can't be done through the Command Center. All of these scripts are found in Project N.O.M.A.D.'s install directory, `/opt/project-nomad`
+Once installed, Nomad has a few helper scripts should you ever need to troubleshoot issues or perform maintenance that can't be done through the Command Center. All of these scripts are found in Nomad's install directory, `/opt/nomad`
 
 ###
 
 ###### Start Script - Starts all installed project containers
 ```bash
-sudo bash /opt/project-nomad/start_nomad.sh
+sudo bash /opt/nomad/start_nomad.sh
 ```
 ###
 
 ###### Stop Script - Stops all installed project containers
 ```bash
-sudo bash /opt/project-nomad/stop_nomad.sh
+sudo bash /opt/nomad/stop_nomad.sh
 ```
 ###
 
 ###### Update Script - Attempts to pull the latest images for the Command Center and its dependencies (i.e. mysql) and recreate the containers. Note: this *only* updates the Command Center containers. It does not update the installable application containers - that should be done through the Command Center UI
 ```bash
-sudo bash /opt/project-nomad/update_nomad.sh
+sudo bash /opt/nomad/update_nomad.sh
 ```
 
 ###### Uninstall Script - Need to start fresh? Use the uninstall script to make your life easy. Note: this cannot be undone!
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Crosstalk-Solutions/project-nomad/refs/heads/main/install/uninstall_nomad.sh -o uninstall_nomad.sh && sudo bash uninstall_nomad.sh
+curl -fsSL https://raw.githubusercontent.com/hermes-os/nomad/refs/heads/main/install/uninstall_nomad.sh -o uninstall_nomad.sh && sudo bash uninstall_nomad.sh
 ```

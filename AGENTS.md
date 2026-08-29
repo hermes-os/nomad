@@ -1,10 +1,10 @@
 READ ~/.agents/AGENTS.md BEFORE ANYTHING (skip if missing).
 
-# Project N.O.M.A.D. Repository Guide
+# Nomad Repository Guide
 
 ## Repository
 
-- This checkout mirrors the upstream Project N.O.M.A.D. project from
+- This checkout mirrors the upstream Nomad project from
   Crosstalk Solutions. Preserve its contribution and release conventions.
 - `admin/` is the AdonisJS 6, Inertia, React, and TypeScript management app.
 - `install/` owns Debian installation, updates, Docker orchestration, and
@@ -13,7 +13,7 @@ READ ~/.agents/AGENTS.md BEFORE ANYTHING (skip if missing).
 
 ## Invariants
 
-- Project N.O.M.A.D. is designed for a trusted local network and currently has
+- Nomad is designed for a trusted local network and currently has
   no application authentication. Do not represent it as safe for direct public
   internet exposure.
 - Installation scripts use root privileges and manage host services. Test
@@ -26,6 +26,7 @@ READ ~/.agents/AGENTS.md BEFORE ANYTHING (skip if missing).
 ## Commands
 
 ```bash
+npm test
 npm --prefix admin ci
 npm --prefix admin run lint
 npm --prefix admin run typecheck

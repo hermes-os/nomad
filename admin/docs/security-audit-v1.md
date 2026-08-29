@@ -1,4 +1,4 @@
-# Project NOMAD Security Audit Report
+# Nomad Security Audit Report
 
 **Date:** 2026-03-08
 **Version audited:** v1.28.0 (main branch)
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Project NOMAD's codebase is **reasonably clean for a LAN appliance**, with no critical authentication bypasses or remote code execution vulnerabilities. However, there are **4 findings that should be fixed before public launch** — all are straightforward path traversal and SSRF issues with known fix patterns already used elsewhere in the codebase.
+Nomad's codebase is **reasonably clean for a LAN appliance**, with no critical authentication bypasses or remote code execution vulnerabilities. However, there are **4 findings that should be fixed before public launch** — all are straightforward path traversal and SSRF issues with known fix patterns already used elsewhere in the codebase.
 
 | Severity | Count | Summary |
 |----------|-------|---------|
@@ -112,14 +112,14 @@ if (!fullPath.startsWith(path.resolve(basePath))) {
 **File:** `admin/app/validators/common.ts`
 **Endpoints:** `POST /api/zim/download-remote`, `POST /api/maps/download-remote`, `POST /api/maps/download-base-assets`, `POST /api/maps/download-remote-preflight`
 
-The download endpoints accept user-supplied URLs and the server fetches from them. Without validation, an attacker on the LAN (or via CSRF since `shield.ts` disables CSRF protection) could make NOMAD fetch from co-located services:
+The download endpoints accept user-supplied URLs and the server fetches from them. Without validation, an attacker on the LAN (or via CSRF since `shield.ts` disables CSRF protection) could make Nomad fetch from co-located services:
 - `http://localhost:3306` (MySQL)
 - `http://localhost:6379` (Redis)
-- `http://169.254.169.254/` (cloud metadata — if NOMAD is ever cloud-hosted)
+- `http://169.254.169.254/` (cloud metadata — if Nomad is ever cloud-hosted)
 
 **Fix:** Added `assertNotPrivateUrl()` that blocks loopback and link-local addresses before any download is initiated. Called in all download controllers.
 
-**Scope note:** RFC1918 private addresses (10.x, 172.16-31.x, 192.168.x) are intentionally **allowed** because NOMAD is a LAN appliance and users may host content mirrors on their local network. The `require_tld: false` VineJS option is preserved so URLs like `http://my-nas:8080/file.zim` remain valid.
+**Scope note:** RFC1918 private addresses (10.x, 172.16-31.x, 192.168.x) are intentionally **allowed** because Nomad is a LAN appliance and users may host content mirrors on their local network. The `require_tld: false` VineJS option is preserved so URLs like `http://my-nas:8080/file.zim` remain valid.
 
 ```typescript
 const blockedPatterns = [
@@ -166,7 +166,7 @@ The `updateSetting` endpoint validates the key against an enum, but `getSetting`
 **File:** `admin/app/validators/common.ts:72-88`
 **Endpoint:** `POST /api/content-updates/apply`
 
-The `download_url` comes directly from the client request body. An attacker can supply any URL and NOMAD will download from it. The URL should be looked up server-side from the content manifest instead.
+The `download_url` comes directly from the client request body. An attacker can supply any URL and Nomad will download from it. The URL should be looked up server-side from the content manifest instead.
 
 **Fix:** Validate `download_url` against the cached manifest, or apply the same loopback/link-local protections as finding #4 (already applied in this PR).
 
@@ -199,7 +199,7 @@ Zero rate limiting across all 60+ endpoints. While acceptable for a LAN applianc
 
 **File:** `admin/config/shield.ts`
 
-CSRF is disabled, meaning any website a LAN user visits could fire requests at NOMAD's API. This amplifies findings 1-4 — path traversal and SSRF could be triggered by a malicious webpage, not just direct LAN access.
+CSRF is disabled, meaning any website a LAN user visits could fire requests at Nomad's API. This amplifies findings 1-4 — path traversal and SSRF could be triggered by a malicious webpage, not just direct LAN access.
 
 **Assessment:** Acceptable for a LAN appliance with no auth system. Enabling CSRF would require significant auth/session infrastructure changes.
 
@@ -246,11 +246,11 @@ Debug logging in production can expose internal state in log files.
 
 ### No Authentication
 
-All 60+ API endpoints are unauthenticated. This is by design — NOMAD is a LAN appliance and the network boundary is the access control. Issue #73 tracks the edge case of public IP interfaces.
+All 60+ API endpoints are unauthenticated. This is by design — Nomad is a LAN appliance and the network boundary is the access control. Issue #73 tracks the edge case of public IP interfaces.
 
 ### Docker Socket Exposure
 
-The `nomad_admin` container mounts `/var/run/docker.sock`. This is necessary for NOMAD's core functionality (managing Docker containers). The socket is not exposed to the network — only the admin container can use it.
+The `nomad_admin` container mounts `/var/run/docker.sock`. This is necessary for Nomad's core functionality (managing Docker containers). The socket is not exposed to the network — only the admin container can use it.
 
 ---
 

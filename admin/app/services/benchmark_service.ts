@@ -28,12 +28,6 @@ import { SERVICE_NAMES } from '../../constants/service_names.js'
 import { BROADCAST_CHANNELS } from '../../constants/broadcast.js'
 import Dockerode from 'dockerode'
 
-// HMAC secret for signing submissions to the benchmark repository
-// This provides basic protection against casual API abuse.
-// Note: Since NOMAD is open source, a determined attacker could extract this.
-// For stronger protection, see challenge-response authentication.
-const BENCHMARK_HMAC_SECRET = 'nomad-benchmark-v1-2026'
-
 // Re-export default weights for use in service
 const SCORE_WEIGHTS = {
   ai_tokens_per_second: 0.30,
@@ -157,10 +151,11 @@ export class BenchmarkService {
     }
 
     try {
-      // Generate HMAC signature for submission verification
       const timestamp = Date.now().toString()
       const payload = timestamp + JSON.stringify(submission)
-      const signature = createHmac('sha256', BENCHMARK_HMAC_SECRET)
+      // This embedded value deters casual API abuse; public source makes it unsuitable for
+      // authentication.
+      const signature = createHmac('sha256', 'nomad-benchmark-v1-2026')
         .update(payload)
         .digest('hex')
 
@@ -170,8 +165,8 @@ export class BenchmarkService {
         {
           timeout: 30000,
           headers: {
-            'X-NOMAD-Timestamp': timestamp,
-            'X-NOMAD-Signature': signature,
+            'X-Nomad-Timestamp': timestamp,
+            'X-Nomad-Signature': signature,
           },
         }
       )
@@ -373,8 +368,8 @@ export class BenchmarkService {
         }
       }
 
-      // Calculate NOMAD score
-      this._updateStatus('calculating_score', 'Calculating NOMAD score...')
+      // Calculate Nomad score
+      this._updateStatus('calculating_score', 'Calculating Nomad score...')
       const nomadScore = this._calculateNomadScore(systemScores, aiScores)
 
       // Save result
@@ -519,7 +514,7 @@ export class BenchmarkService {
   }
 
   /**
-   * Calculate weighted NOMAD score
+   * Calculate weighted Nomad score
    */
   private _calculateNomadScore(systemScores: SystemScores, aiScores: Partial<AIScores>): number {
     let totalWeight = 0

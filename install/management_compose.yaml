@@ -1,7 +1,7 @@
-name: project-nomad
+name: nomad
 services:
   admin:
-    image: ghcr.io/crosstalk-solutions/project-nomad:latest
+    image: ghcr.io/hermes-os/nomad:latest
     pull_policy: always
     container_name: nomad_admin
     restart: unless-stopped
@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /opt/project-nomad/storage:/app/storage
+      - /opt/nomad/storage:/app/storage
       - /tmp/nomad-disk-info.json:/app/storage/nomad-disk-info.json
       - /var/run/docker.sock:/var/run/docker.sock # Allows the admin service to communicate with the Host's Docker daemon
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
@@ -66,7 +66,7 @@ services:
       - MYSQL_USER=nomad_user
       - MYSQL_PASSWORD=replaceme
     volumes:
-      - /opt/project-nomad/mysql:/var/lib/mysql
+      - /opt/nomad/mysql:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
@@ -79,7 +79,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - /opt/project-nomad/redis:/data
+      - /opt/nomad/redis:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -93,7 +93,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Allows communication with the Host's Docker daemon
-      - /opt/project-nomad:/opt/project-nomad # Writable access required so the updater can set the correct image tag in compose.yml
+      - /opt/nomad:/opt/nomad # Writable access required so the updater can set the correct image tag in compose.yml
       - nomad-update-shared:/shared # Shared volume for communication with admin container
 
 volumes:

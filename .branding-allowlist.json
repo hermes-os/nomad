@@ -1,0 +1,117 @@
+[
+  {
+    "path": "*",
+    "text": "projectnomad.us",
+    "reason": "Existing public website and API domains remain factual external endpoints."
+  },
+  {
+    "path": "*",
+    "text": "www.projectnomad.us",
+    "reason": "The existing public website hostname remains a factual external endpoint."
+  },
+  {
+    "path": "*",
+    "text": "api.projectnomad.us",
+    "reason": "The existing public API hostname remains a factual external endpoint."
+  },
+  {
+    "path": "*",
+    "text": "benchmark.projectnomad.us",
+    "reason": "The existing benchmark hostname remains a factual external endpoint."
+  },
+  {
+    "path": "README.md",
+    "text": "Website-projectnomad.us-blue",
+    "reason": "The website badge label contains the factual external hostname."
+  },
+  {
+    "path": "*",
+    "text": "Crosstalk-Solutions/project-nomad-maps",
+    "reason": "The separately hosted maps repository retains its external upstream name."
+  },
+  {
+    "path": "install/install_nomad.sh",
+    "text": "project-nomad",
+    "reason": "The installer detects the exact legacy Compose project name."
+  },
+  {
+    "path": "install/install_nomad.sh",
+    "text": "/opt/project-nomad",
+    "reason": "The installer migrates the exact legacy installation path."
+  },
+  {
+    "path": "install/install_nomad.sh",
+    "text": "project-nomad_default",
+    "reason": "The installer migrates the exact legacy Compose network."
+  },
+  {
+    "path": "install/update_nomad.sh",
+    "text": "project-nomad",
+    "reason": "The updater detects the exact legacy Compose project name."
+  },
+  {
+    "path": "install/update_nomad.sh",
+    "text": "/opt/project-nomad",
+    "reason": "The updater migrates the exact legacy installation path."
+  },
+  {
+    "path": "install/update_nomad.sh",
+    "text": "project-nomad_default",
+    "reason": "The updater migrates the exact legacy Compose network."
+  },
+  {
+    "path": "install/update_nomad.sh",
+    "text": "crosstalk-solutions/project-nomad",
+    "reason": "The updater migrates the exact legacy container image path."
+  },
+  {
+    "path": "install/uninstall_nomad.sh",
+    "text": "project-nomad",
+    "reason": "The uninstaller locates the exact legacy Compose project name."
+  },
+  {
+    "path": "install/uninstall_nomad.sh",
+    "text": "/opt/project-nomad",
+    "reason": "The uninstaller locates the exact legacy installation path."
+  },
+  {
+    "path": "install/uninstall_nomad.sh",
+    "text": "project-nomad_default",
+    "reason": "The uninstaller removes the exact legacy Compose network."
+  },
+  {
+    "path": "install/uninstall_nomad.sh",
+    "text": "project-nomad_nomad-update-shared",
+    "reason": "The uninstaller removes the exact legacy updater volume."
+  },
+  {
+    "path": "tests/repository_rename.test.mjs",
+    "text": "project-nomad",
+    "reason": "Focused migration fixtures use the exact legacy project name."
+  },
+  {
+    "path": "tests/repository_rename.test.mjs",
+    "text": "/opt/project-nomad",
+    "reason": "Focused migration fixtures use the exact legacy installation path."
+  },
+  {
+    "path": "tests/repository_rename.test.mjs",
+    "text": "project-nomad_default",
+    "reason": "Focused migration fixtures use the exact legacy network."
+  },
+  {
+    "path": "tests/repository_rename.test.mjs",
+    "text": "crosstalk-solutions/project-nomad",
+    "reason": "Focused migration fixtures use the exact legacy image path."
+  },
+  {
+    "path": "admin/database/migrations/1788048000000_migrate_nomad_storage_paths.ts",
+    "text": "/opt/project-nomad/storage",
+    "reason": "The database migration rewrites persisted service bind paths from existing installations."
+  },
+  {
+    "path": "admin/tests/unit/nomad_storage_migration.spec.ts",
+    "text": "/opt/project-nomad/storage",
+    "reason": "The focused migration test proves that persisted legacy bind paths are rewritten."
+  }
+]

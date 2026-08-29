@@ -661,7 +661,7 @@ export default function EasySetupWizard(props: { system: { services: ServiceSlim
     return (
       <div className="space-y-8">
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">What do you want NOMAD to do?</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">What do you want Nomad to do?</h2>
           <p className="text-gray-600">
             Select the capabilities you need. You can always add more later.
           </p>

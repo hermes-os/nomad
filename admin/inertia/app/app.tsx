@@ -13,7 +13,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import NotificationsProvider from '~/providers/NotificationProvider'
 import { UsePageProps } from '../../types/system'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Project N.O.M.A.D.'
+const appName = import.meta.env.VITE_APP_NAME || 'Nomad'
 const queryClient = new QueryClient()
 
 // Patch the global crypto object for non-HTTPS/localhost contexts

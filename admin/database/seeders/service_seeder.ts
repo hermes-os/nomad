@@ -6,10 +6,7 @@ import { SERVICE_NAMES } from '../../constants/service_names.js'
 
 export default class ServiceSeeder extends BaseSeeder {
   // Use environment variable with fallback to production default
-  private static NOMAD_STORAGE_ABS_PATH = env.get(
-    'NOMAD_STORAGE_PATH',
-    '/opt/project-nomad/storage'
-  )
+  private static NOMAD_STORAGE_ABS_PATH = env.get('NOMAD_STORAGE_PATH', '/opt/nomad/storage')
   private static DEFAULT_SERVICES: Omit<
     ModelAttributes<Service>,
     'created_at' | 'updated_at' | 'metadata' | 'id' | 'available_update_version' | 'update_checked_at'

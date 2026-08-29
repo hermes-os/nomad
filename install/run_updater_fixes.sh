@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Project N.O.M.A.D. - One-Time Updater Fix Script
+# Nomad - One-Time Updater Fix Script
 #
-# Script                | Project N.O.M.A.D. One-Time Updater Fix Script
+# Script                | Nomad One-Time Updater Fix Script
 # Version               | 1.0.0
 # Author                | Crosstalk Solutions, LLC
 # Website               | https://crosstalksolutions.com
@@ -12,7 +12,7 @@
 #   updater that cannot be applied through the normal in-app update mechanism:
 #
 #   Fix 1 — Sidecar volume write access
-#     Removes the :ro (read-only) flag from the sidecar's /opt/project-nomad
+#     Removes the :ro (read-only) flag from the sidecar's /opt/nomad
 #     volume mount in compose.yml. The sidecar must be able to write to
 #     compose.yml so it can set the correct Docker image tag when installing
 #     RC or stable versions.
@@ -40,13 +40,13 @@ WHITE_R='\033[39m'
 # Constants
 ###############################################################################
 
-NOMAD_DIR="/opt/project-nomad"
+NOMAD_DIR="/opt/nomad"
 COMPOSE_FILE="${NOMAD_DIR}/compose.yml"
 SIDECAR_DIR="${NOMAD_DIR}/sidecar-updater"
-COMPOSE_PROJECT_NAME="project-nomad"
+COMPOSE_PROJECT_NAME="nomad"
 
-SIDECAR_DOCKERFILE_URL="https://raw.githubusercontent.com/Crosstalk-Solutions/project-nomad/refs/heads/main/install/sidecar-updater/Dockerfile"
-SIDECAR_SCRIPT_URL="https://raw.githubusercontent.com/Crosstalk-Solutions/project-nomad/refs/heads/main/install/sidecar-updater/update-watcher.sh"
+SIDECAR_DOCKERFILE_URL="https://raw.githubusercontent.com/hermes-os/nomad/refs/heads/main/install/sidecar-updater/Dockerfile"
+SIDECAR_SCRIPT_URL="https://raw.githubusercontent.com/hermes-os/nomad/refs/heads/main/install/sidecar-updater/update-watcher.sh"
 
 ###############################################################################
 # Pre-flight Checks
@@ -62,7 +62,7 @@ check_is_bash() {
 }
 
 check_confirmation() {
-  echo -e "${YELLOW}#${RESET} This is a very specific fix script for a very specific issue. You probably don't need to run this unless you were specifically directed to by the N.O.M.A.D. team."
+  echo -e "${YELLOW}#${RESET} This is a very specific fix script for a very specific issue. You probably don't need to run this unless you were specifically directed to by the Nomad team."
   echo -e "${YELLOW}#${RESET} Please ensure you have a backup of your data before proceeding."
   read -rp "Do you want to continue? (y/N) " response
   if [[ ! "$response" =~ ^[Yy]$ ]]; then
@@ -97,7 +97,7 @@ check_docker_running() {
 check_compose_file() {
   if [[ ! -f "$COMPOSE_FILE" ]]; then
     echo -e "${RED}#${RESET} compose.yml not found at ${COMPOSE_FILE}."
-    echo -e "${RED}#${RESET} Please ensure Project N.O.M.A.D. is installed before running this script."
+    echo -e "${RED}#${RESET} Please ensure Nomad is installed before running this script."
     exit 1
   fi
   echo -e "${GREEN}#${RESET} Found compose.yml at ${COMPOSE_FILE}.\n"
@@ -106,7 +106,7 @@ check_compose_file() {
 check_sidecar_dir() {
   if [[ ! -d "$SIDECAR_DIR" ]]; then
     echo -e "${RED}#${RESET} Sidecar directory not found at ${SIDECAR_DIR}."
-    echo -e "${RED}#${RESET} Please ensure Project N.O.M.A.D. is installed before running this script."
+    echo -e "${RED}#${RESET} Please ensure Nomad is installed before running this script."
     exit 1
   fi
   echo -e "${GREEN}#${RESET} Found sidecar directory at ${SIDECAR_DIR}.\n"
@@ -129,17 +129,17 @@ backup_compose_file() {
 
 fix_sidecar_volume_mount() {
   # Idempotent: skip if :ro is already absent from the sidecar mount line
-  if ! grep -q '/opt/project-nomad:/opt/project-nomad:ro' "$COMPOSE_FILE"; then
+  if ! grep -q '/opt/nomad:/opt/nomad:ro' "$COMPOSE_FILE"; then
     echo -e "${GREEN}#${RESET} Sidecar volume mount is already writable — no change needed.\n"
     return 0
   fi
 
   echo -e "${YELLOW}#${RESET} Removing :ro restriction from sidecar volume mount in compose.yml..."
-  sed -i 's|/opt/project-nomad:/opt/project-nomad:ro.*|/opt/project-nomad:/opt/project-nomad # Writable access required so the updater can set the correct image tag in compose.yml|' "$COMPOSE_FILE"
+  sed -i 's|/opt/nomad:/opt/nomad:ro.*|/opt/nomad:/opt/nomad # Writable access required so the updater can set the correct image tag in compose.yml|' "$COMPOSE_FILE"
 
-  if grep -q '/opt/project-nomad:/opt/project-nomad:ro' "$COMPOSE_FILE"; then
+  if grep -q '/opt/nomad:/opt/nomad:ro' "$COMPOSE_FILE"; then
     echo -e "${RED}#${RESET} Failed to remove :ro from compose.yml. Please update it manually:"
-    echo -e "${WHITE_R}    - /opt/project-nomad:/opt/project-nomad:ro${RESET}  →  ${WHITE_R}- /opt/project-nomad:/opt/project-nomad${RESET}"
+    echo -e "${WHITE_R}    - /opt/nomad:/opt/nomad:ro${RESET}  →  ${WHITE_R}- /opt/nomad:/opt/nomad${RESET}"
     exit 1
   fi
 
@@ -211,7 +211,7 @@ verify_sidecar_running() {
 ###############################################################################
 
 echo -e "${GREEN}#########################################################################${RESET}"
-echo -e "${GREEN}#${RESET}         Project N.O.M.A.D. — One-Time Updater Fix Script               ${GREEN}#${RESET}"
+echo -e "${GREEN}#${RESET}         Nomad — One-Time Updater Fix Script               ${GREEN}#${RESET}"
 echo -e "${GREEN}#########################################################################${RESET}\n"
 
 check_is_bash
@@ -236,5 +236,5 @@ echo -e "${GREEN}#${RESET} All fixes applied successfully!"
 echo -e "${GREEN}#${RESET}"
 echo -e "${GREEN}#${RESET} The updater sidecar can now install RC and stable versions correctly."
 echo -e "${GREEN}#${RESET} The remaining fix (admin service target_tag support) will apply"
-echo -e "${GREEN}#${RESET} automatically the next time you update N.O.M.A.D. via the UI."
+echo -e "${GREEN}#${RESET} automatically the next time you update Nomad via the UI."
 echo -e "${GREEN}#########################################################################${RESET}\n"

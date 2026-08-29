@@ -1,8 +1,8 @@
-# Contributing to Project N.O.M.A.D.
+# Contributing to Nomad
 
-Thank you for your interest in contributing to Project N.O.M.A.D.! Community contributions are what keep this project growing and improving. Please read this guide fully before getting started — it will save you (and the maintainers) a lot of time.
+Thank you for your interest in contributing to Nomad! Community contributions are what keep this project growing and improving. Please read this guide fully before getting started — it will save you (and the maintainers) a lot of time.
 
-> **Note:** Acceptance of contributions is not guaranteed. All pull requests are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Project N.O.M.A.D. ("Nomad") reserve the right accept, deny, or modify any pull request at their sole discretion.
+> **Note:** Acceptance of contributions is not guaranteed. All pull requests are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Nomad reserve the right accept, deny, or modify any pull request at their sole discretion.
 
 ---
 
@@ -22,7 +22,7 @@ Thank you for your interest in contributing to Project N.O.M.A.D.! Community con
 
 ## Code of Conduct
 
-Please read and review our full [Code of Conduct](https://github.com/Crosstalk-Solutions/project-nomad/blob/main/CODE_OF_CONDUCT.md) before contributing. In short: please be respectful and considerate in all interactions with maintainers and other contributors.
+Please read and review our full [Code of Conduct](https://github.com/hermes-os/nomad/blob/main/CODE_OF_CONDUCT.md) before contributing. In short: please be respectful and considerate in all interactions with maintainers and other contributors.
 
 We are committed to providing a welcoming environment for everyone. Disrespectful or abusive behavior will not be tolerated. 
 
@@ -41,7 +41,7 @@ When opening an issue:
 ---
 
 ## Getting Started with Contributing
-**Please note**: this is the Getting Started guide for developing and contributing to Nomad, NOT [installing Nomad](https://github.com/Crosstalk-Solutions/project-nomad/blob/main/README.md) for regular use! 
+**Please note**: this is the Getting Started guide for developing and contributing to Nomad, NOT [installing Nomad](https://github.com/hermes-os/nomad/blob/main/README.md) for regular use!
 
 ### Prerequisites
 
@@ -56,12 +56,12 @@ When opening an issue:
 1. Click **Fork** at the top right of this repository
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/project-nomad.git
-   cd project-nomad
+   git clone https://github.com/YOUR_USERNAME/nomad.git
+   cd nomad
    ```
 3. Add the upstream remote so you can stay in sync:
    ```bash
-   git remote add upstream https://github.com/Crosstalk-Solutions/project-nomad.git
+   git remote add upstream https://github.com/hermes-os/nomad.git
    ```
 
 ### Avoid Installing a Release Version Locally
@@ -85,7 +85,7 @@ Because Nomad relies heavily on Docker, we actually recommend against installing
    git checkout -b feature/add-new-tool
    ```
 
-3. **Make your changes.** Follow existing code style and conventions. Test your changes locally against a running N.O.M.A.D. instance before submitting.
+3. **Make your changes.** Follow existing code style and conventions. Test your changes locally against a running Nomad instance before submitting.
 
 4. **Add release notes** (see [Release Notes](#release-notes) below).
 
@@ -155,7 +155,7 @@ Use the format `- **Area**: Description` to stay consistent with existing entrie
 
 ## Versioning
 
-This project uses [Semantic Versioning](https://semver.org/). Versions are managed in the root `package.json` and updated automatically by `semantic-release`. The `project-nomad` Docker image uses this version. The `admin/package.json` version stays at `0.0.0` and should not be changed manually.
+This project uses [Semantic Versioning](https://semver.org/). Versions are managed in the root `package.json` and updated automatically by `semantic-release`. The `nomad` Docker image uses this version. The `admin/package.json` version stays at `0.0.0` and should not be changed manually.
 
 ---
 
@@ -178,10 +178,11 @@ This project uses [Semantic Versioning](https://semver.org/). Versions are manag
 
 Have questions or want to discuss ideas before opening an issue? Join the community:
 
-- **Discord:** [Join the Crosstalk Solutions server](https://discord.com/invite/crosstalksolutions) — the best place to get help, share your builds, and talk with other N.O.M.A.D. users
+- **Source:** [Forgejo](https://git.ashwren.com/hermes/nomad) · [GitHub mirror](https://github.com/hermes-os/nomad)
+- **Discord:** [Join the Crosstalk Solutions server](https://discord.com/invite/crosstalksolutions) — the best place to get help, share your builds, and talk with other Nomad users
 - **Website:** [www.projectnomad.us](https://www.projectnomad.us)
 - **Benchmark Leaderboard:** [benchmark.projectnomad.us](https://benchmark.projectnomad.us)
 
 ---
 
-*Project N.O.M.A.D. is licensed under the [Apache License 2.0](LICENSE).*
+*Nomad is licensed under the [Apache License 2.0](LICENSE).*

@@ -1,4 +1,4 @@
-// Builder Tag word lists for generating unique, NOMAD-themed identifiers
+// Builder Tag word lists for generating unique, Nomad-themed identifiers
 // Format: [Adjective]-[Noun]-[4-digit number]
 
 export const ADJECTIVES = [

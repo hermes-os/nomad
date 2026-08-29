@@ -9,6 +9,7 @@
 - **Security**: Content update requests whose resource id or version would place the downloaded file outside content storage (including in a subdirectory that does not exist) are now rejected with an "Invalid resource id or version" error instead of being written to the requested path or failing mid-download
 
 ### Improvements
+- **Branding**: Renamed the product and its repository-owned install, package, container, service, and image identifiers to Nomad while preserving existing installation data, bind mounts, and generated credentials during migration
 
 ## Version 1.29.0 - March 11, 2026
 
@@ -159,7 +160,7 @@
 ### 🚀 Features
 
 - **Content Manager**: Display friendly names (Title and Summary) instead of raw filenames for ZIM files
-- **AI Knowledge Base**: Automatically add NOMAD documentation to AI Knowledge Base on install
+- **AI Knowledge Base**: Automatically add Nomad documentation to AI Knowledge Base on install
 
 ### 🐛 Bug Fixes
 
@@ -218,7 +219,7 @@
 
 ### 🚀 Features
 
-- **Benchmark**: Builder Tag system — claim leaderboard spots with NOMAD-themed tags (e.g., "Tactical-Llama-1234")
+- **Benchmark**: Builder Tag system — claim leaderboard spots with Nomad-themed tags (e.g., "Tactical-Llama-1234")
 - **Benchmark**: Full benchmark with AI now required for community sharing; HMAC-signed submissions
 - **Release Notes**: Subscribe to release notes via email
 - **Maps**: Automatically download base map assets if missing
@@ -250,7 +251,7 @@
 
 ### 🚀 Features
 
-- **System Benchmark**: Hardware scoring with NOMAD Score, circular gauges, and community leaderboard submission
+- **System Benchmark**: Hardware scoring with Nomad Score, circular gauges, and community leaderboard submission
 - **Dashboard**: User-friendly app names with "Powered by" open source attribution
 - **Settings**: Updated nomenclature and added tiered content collections to Settings pages
 - **Queues**: Support working all queues with a single command
@@ -492,7 +493,7 @@
     - Fixed renderer file permissions
     - Fixed absolute host path issue
 - **ZIM Manager**:
-    - Initial ZIM download now hosted in Project Nomad GitHub repo for better availability
+    - Initial ZIM download now hosted in Nomad GitHub repo for better availability
 
 ---
 
@@ -516,7 +517,7 @@
 
 ### ⚠️ Breaking Changes
 
-- **Container Naming**: As a result of standardized container naming, it is recommend that you do a fresh install of Project N.O.M.A.D. and any apps to avoid potential conflicts/duplication of containers
+- **Container Naming**: As a result of standardized container naming, it is recommend that you do a fresh install of Nomad and any apps to avoid potential conflicts/duplication of containers
 
 ### 📚 Documentation
 
@@ -546,10 +547,10 @@
 
 ## Support
 
-- **Discord:** [Join the Community](https://discord.com/invite/crosstalksolutions) — Get help, share your builds, and connect with other NOMAD users
-- **Bug Reports:** [GitHub Issues](https://github.com/Crosstalk-Solutions/project-nomad/issues)
+- **Discord:** [Join the Community](https://discord.com/invite/crosstalksolutions) — Get help, share your builds, and connect with other Nomad users
+- **Bug Reports:** [GitHub Issues](https://github.com/hermes-os/nomad/issues)
 - **Website:** [www.projectnomad.us](https://www.projectnomad.us)
 
 ---
 
-*For the full changelog, see our [GitHub releases](https://github.com/Crosstalk-Solutions/project-nomad/releases).*
+*For the full changelog, see our [GitHub releases](https://github.com/hermes-os/nomad/releases).*
