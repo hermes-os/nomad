@@ -105,6 +105,11 @@
     "reason": "Focused migration fixtures use the exact legacy image path."
   },
   {
+    "path": "install/tests/test_dozzle_shell_migration.sh",
+    "text": "project-nomad",
+    "reason": "The migration fixture creates a directory with the exact legacy project name to exercise the migration path."
+  },
+  {
     "path": "admin/database/migrations/1788048000000_migrate_nomad_storage_paths.ts",
     "text": "/opt/project-nomad/storage",
     "reason": "The database migration rewrites persisted service bind paths from existing installations."

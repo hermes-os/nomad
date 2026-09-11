@@ -4,7 +4,7 @@
   "description": "\"",
   "main": "index.js",
   "scripts": {
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/*.test.mjs && bash install/tests/test_dozzle_shell_migration.sh",
     "check:branding": "node scripts/check-branding.mjs"
   },
   "author": "Crosstalk Solutions, LLC",

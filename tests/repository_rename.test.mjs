@@ -183,6 +183,124 @@ test('update migration rewrites owned identifiers and preserves generated creden
   assert.match(migrated, /DB_PASSWORD=a-generated-password/)
 })
 
+test('update migration closes the dozzle shell flag and ignores near-miss shapes', () => {
+  const fixtureRoot = mkdtempSync(join(tmpdir(), 'nomad-dozzle-'))
+  const composePath = join(fixtureRoot, 'compose.yml')
+  writeFileSync(
+    composePath,
+    [
+      '    environment:',
+      '      - DOZZLE_ENABLE_ACTIONS=true',
+      '      - DOZZLE_ENABLE_SHELL=true  # Enables web-based shell access',
+      '      - MY_DOZZLE_ENABLE_SHELL=true',
+      '      - DOZZLE_ENABLE_SHELL=truey',
+      '#      - DOZZLE_ENABLE_SHELL=true',
+      '',
+    ].join('\n')
+  )
+
+  const script = sourceableScript('install/update_nomad.sh', 'Main Script')
+  const result = spawnSync(
+    'bash',
+    ['-c', 'source "$1"; migrate_legacy_compose_file "$2"', 'bash', script, composePath],
+    { encoding: 'utf8' }
+  )
+
+  assert.equal(result.status, 0, result.stderr)
+  const migrated = readFileSync(composePath, 'utf8')
+  assert.match(migrated, /^[ ]*- DOZZLE_ENABLE_SHELL=false  # Enables web-based shell access$/m)
+  assert.match(migrated, /MY_DOZZLE_ENABLE_SHELL=true/)
+  assert.match(migrated, /DOZZLE_ENABLE_SHELL=truey/)
+  assert.match(migrated, /^#      - DOZZLE_ENABLE_SHELL=true$/m)
+  assert.match(migrated, /DOZZLE_ENABLE_ACTIONS=true/)
+})
+
+test('update watcher migrates the dozzle shell flag before recreating services', () => {
+  const watcher = readFileSync(
+    join(repositoryRoot, 'install/sidecar-updater/update-watcher.sh'),
+    'utf8'
+  )
+  // Guard the call graph, not file positions: extract the perform_update
+  // body (opener `perform_update() {` through the first column-0 `}`) and
+  // require the bare migration call to appear INSIDE it, before that same
+  // body's real `docker compose` pull and recreate invocations. A bare
+  // call parked in dead code elsewhere in the file (or after the pull)
+  // must fail this test. Comment lines are skipped on the raw line, and
+  // the anchors require the real `docker compose` invocation, so a comment
+  // merely mentioning "compose ... pull" cannot stand in for it. The match
+  // is a bare invocation only: the () definition, comments, and lines with
+  // trailing text never count.
+  const bodyStart = watcher.indexOf('perform_update() {')
+  assert.notEqual(bodyStart, -1, 'watcher must define perform_update')
+  const bodyAfterOpener = watcher.slice(bodyStart).split('\n')
+  const bodyEndOffset = bodyAfterOpener.findIndex((line) => /^}$/.test(line))
+  assert.notEqual(bodyEndOffset, -1, 'perform_update body must terminate')
+  const body = bodyAfterOpener.slice(0, bodyEndOffset + 1)
+  const migrationCall = body.findIndex((line) =>
+    /^[ \t]*migrate_dozzle_shell_setting[ \t]*$/.test(line)
+  )
+  const codeLines = body.filter((line) => !/^[ \t]*(#|$)/.test(line))
+  const pullLine = codeLines.findIndex((line) =>
+    /docker compose.*pull/.test(line)
+  )
+  const recreateLine = codeLines.findIndex((line) =>
+    /up -d --no-deps/.test(line)
+  )
+  assert.notEqual(
+    migrationCall,
+    -1,
+    'perform_update must call migrate_dozzle_shell_setting'
+  )
+  assert.notEqual(pullLine, -1)
+  assert.notEqual(recreateLine, -1)
+  const migrationCodePos = body
+    .slice(0, migrationCall)
+    .filter((line) => !/^[ \t]*(#|$)/.test(line)).length
+  assert.ok(
+    migrationCodePos < pullLine,
+    'migration must precede the image pull inside perform_update'
+  )
+  assert.ok(
+    migrationCodePos < recreateLine,
+    'migration must precede the per-service recreate inside perform_update'
+  )
+
+  const fixtureRoot = mkdtempSync(join(tmpdir(), 'nomad-watcher-'))
+  const composePath = join(fixtureRoot, 'compose.yml')
+  const logPath = join(fixtureRoot, 'update-log')
+  writeFileSync(
+    composePath,
+    [
+      '    environment:',
+      '      - DOZZLE_ENABLE_ACTIONS=true',
+      '      - DOZZLE_ENABLE_SHELL=true  # Enables web-based shell access',
+      '',
+    ].join('\n')
+  )
+
+  const script = sourceableScript(
+    'install/sidecar-updater/update-watcher.sh',
+    '# Main watch loop'
+  )
+  const result = spawnSync(
+    'bash',
+    [
+      '-c',
+      'source "$1"; COMPOSE_FILE="$2"; LOG_FILE="$3"; migrate_dozzle_shell_setting',
+      'bash',
+      script,
+      composePath,
+      logPath,
+    ],
+    { encoding: 'utf8' }
+  )
+
+  assert.equal(result.status, 0, result.stderr)
+  const migrated = readFileSync(composePath, 'utf8')
+  assert.match(migrated, /DOZZLE_ENABLE_SHELL=false/)
+  assert.doesNotMatch(migrated, /DOZZLE_ENABLE_SHELL=true/)
+})
+
 test('uninstaller can target an installation created before the rename', () => {
   const fixtureRoot = mkdtempSync(join(tmpdir(), 'nomad-uninstall-'))
   const legacyDirectory = join(fixtureRoot, 'project-nomad')

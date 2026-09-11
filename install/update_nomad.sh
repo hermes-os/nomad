@@ -115,6 +115,8 @@ migrate_legacy_compose_file() {
     -e 's|^COMPOSE_PROJECT_NAME="project-nomad"$|COMPOSE_PROJECT_NAME="nomad"|' \
     -e 's|ghcr.io/crosstalk-solutions/project-nomad|ghcr.io/hermes-os/nomad|g' \
     -e 's|/opt/project-nomad|/opt/nomad|g' \
+    -e 's|^\([[:space:]]*-[[:space:]]*DOZZLE_ENABLE_SHELL\)[[:space:]]*=[[:space:]]*true$|\1=false|' \
+    -e 's|^\([[:space:]]*-[[:space:]]*DOZZLE_ENABLE_SHELL\)[[:space:]]*=[[:space:]]*true\([[:space:]].*\)$|\1=false\2|' \
     "$compose_file"
 }
 

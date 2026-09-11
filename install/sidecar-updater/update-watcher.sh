@@ -28,6 +28,29 @@ write_status() {
 EOF
 }
 
+# Close the unauthenticated Dozzle web shell on hosts whose deployed
+# compose.yml still carries DOZZLE_ENABLE_SHELL=true. Same effect as
+# migrate_legacy_compose_file() in install/update_nomad.sh: only the exact
+# list-item shape this repo provisions ("- DOZZLE_ENABLE_SHELL=true", with an
+# optional trailing comment) is rewritten. Idempotent, a no-op when the key
+# is absent or already false, and never aborts the update: an unreadable
+# file or a sed failure only logs and returns success.
+migrate_dozzle_shell_setting() {
+    if [[ ! -r "$COMPOSE_FILE" ]]; then
+        log "WARNING: compose file '${COMPOSE_FILE}' is unreadable - skipping DOZZLE_ENABLE_SHELL migration"
+        return 0
+    fi
+    if sed -i \
+        -e 's|^\([[:space:]]*-[[:space:]]*DOZZLE_ENABLE_SHELL\)[[:space:]]*=[[:space:]]*true$|\1=false|' \
+        -e 's|^\([[:space:]]*-[[:space:]]*DOZZLE_ENABLE_SHELL\)[[:space:]]*=[[:space:]]*true\([[:space:]].*\)$|\1=false\2|' \
+        "$COMPOSE_FILE" 2>> "$LOG_FILE"; then
+        log "DOZZLE_ENABLE_SHELL migration applied (idempotent; no-op when already false or absent)"
+    else
+        log "WARNING: DOZZLE_ENABLE_SHELL migration failed - continuing update without it"
+    fi
+    return 0
+}
+
 perform_update() {
     local target_tag="$1"
 
@@ -40,6 +63,11 @@ perform_update() {
     write_status "starting" 0 "System update initiated"
     log "System update initiated"
     sleep 1
+
+    # Close the unauthenticated Dozzle web shell BEFORE the pull and the
+    # per-service recreate below, so the recreated dozzle container picks up
+    # DOZZLE_ENABLE_SHELL=false. Never aborts the update on failure.
+    migrate_dozzle_shell_setting
 
     # Apply target image tag to compose.yml before pulling
     log "Applying image tag '${target_tag}' to compose.yml..."
