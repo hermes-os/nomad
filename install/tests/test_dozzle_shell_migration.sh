@@ -452,6 +452,32 @@ else
 fi
 rm -f "$WATCHER_COMPOSE.orig"
 
+# --- Case 12 (watcher): perform_update truly executes the migration.
+# The ordering check above only proves the call is textually present in the
+# first perform_update body. It still passes when the runtime call is dead
+# (a second perform_update definition, a heredoc, a never-true guard, or an
+# uninvoked nested helper). This case closes the class: it sources the
+# watcher, stubs the host-touching commands perform_update invokes (docker,
+# sleep, write_status are no-ops; sed/log/date/tee stay real with LOG_FILE
+# pointed at the sandbox), runs perform_update against a sandboxed compose
+# file seeded true, and asserts the file came out false.
+cat > "$WATCHER_COMPOSE" <<'EOF'
+  dozzle:
+    image: amir20/dozzle:v10.0
+    environment:
+      - DOZZLE_ENABLE_SHELL=true
+EOF
+: > "$WATCHER_LOG"
+COMPOSE_FILE="$WATCHER_COMPOSE" LOG_FILE="$WATCHER_LOG" STATUS_FILE="$WATCHER_STATUS" perform_update latest
+exec_status="$?"
+if [[ "$exec_status" == "0" ]] \
+  && grep -q 'DOZZLE_ENABLE_SHELL=false' "$WATCHER_COMPOSE" \
+  && ! grep -q 'DOZZLE_ENABLE_SHELL=true' "$WATCHER_COMPOSE"; then
+  report ok "watcher: perform_update executes the migration (true rewritten to false)"
+else
+  report bad "watcher: perform_update executes the migration (true rewritten to false)"
+fi
+
 echo "---"
 echo "passed=$PASS failed=$FAIL"
 [[ "$FAIL" == "0" ]]
