@@ -478,6 +478,45 @@ else
   report bad "watcher: perform_update executes the migration (true rewritten to false)"
 fi
 
+# --- Case 13 (fresh install): the shipped template disables the shell.
+# The migration cases above prove a deployed compose file gets rewritten,
+# but nothing proved fresh installs ship safe: reverting the single
+# DOZZLE_ENABLE_SHELL=false template line in
+# install/management_compose.yaml back to =true left the suite green.
+# This case reads the template value directly and fails unless it is false.
+TEMPLATE_FILE="$REPO_ROOT/install/management_compose.yaml"
+if grep -q 'DOZZLE_ENABLE_SHELL=false' "$TEMPLATE_FILE" \
+  && ! grep -q 'DOZZLE_ENABLE_SHELL=true' "$TEMPLATE_FILE"; then
+  report ok "fresh-install template ships DOZZLE_ENABLE_SHELL=false"
+else
+  report bad "fresh-install template ships DOZZLE_ENABLE_SHELL=false"
+fi
+
+# --- Case 14 (CLI): force_recreate truly executes the migration.
+# Mirrors Case 12 for the CLI path. Case 12 proves the watcher path really
+# invokes its migration (perform_update -> migrate); nothing proved the CLI
+# path does the same, so deleting the migrate_legacy_compose_file call at
+# the force_recreate call-site (function left fully intact) still reported
+# passed=19 failed=0. This case closes the class: it seeds the live
+# $NOMAD_DIR/compose.yml true, runs force_recreate with the host-touching
+# commands stubbed (docker/systemctl/sleep are no-ops above), and asserts
+# the file came out false.
+cat > "$NOMAD_DIR/compose.yml" <<'EOF'
+  dozzle:
+    image: amir20/dozzle:v10.0
+    environment:
+      - DOZZLE_ENABLE_SHELL=true
+EOF
+force_recreate
+cli_status="$?"
+if [[ "$cli_status" == "0" ]] \
+  && grep -q 'DOZZLE_ENABLE_SHELL=false' "$NOMAD_DIR/compose.yml" \
+  && ! grep -q 'DOZZLE_ENABLE_SHELL=true' "$NOMAD_DIR/compose.yml"; then
+  report ok "cli: force_recreate executes the migration (true rewritten to false)"
+else
+  report bad "cli: force_recreate executes the migration (true rewritten to false)"
+fi
+
 echo "---"
 echo "passed=$PASS failed=$FAIL"
 [[ "$FAIL" == "0" ]]
