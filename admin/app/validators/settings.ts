@@ -6,3 +6,7 @@ export const updateSettingSchema = vine.compile(vine.object({
     key: vine.enum(SETTINGS_KEYS),
     value: vine.any().optional(),
 }))
+
+export const getSettingSchema = vine.compile(vine.object({
+    key: vine.enum(SETTINGS_KEYS),
+}))
