@@ -72,6 +72,16 @@ test.group('SettingsController.getSetting validation', () => {
       0,
       'expected SETTINGS_KEYS to contain at least one configured key'
     )
+    assert.sameMembers(
+      [...SETTINGS_KEYS],
+      [
+        'chat.suggestionsEnabled',
+        'chat.lastModel',
+        'ui.hasVisitedEasySetup',
+        'system.earlyAccess',
+        'ai.assistantCustomName',
+      ]
+    )
     for (const key of SETTINGS_KEYS) {
       const payload = await getSettingSchema.validate({ key })
       assert.equal(payload.key, key)

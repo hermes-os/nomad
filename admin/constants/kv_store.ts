@@ -1,3 +1,9 @@
-import { KVStoreKey } from "../types/kv_store.js";
+export const SETTINGS_KEYS = [
+  'chat.suggestionsEnabled',
+  'chat.lastModel',
+  'ui.hasVisitedEasySetup',
+  'system.earlyAccess',
+  'ai.assistantCustomName',
+] as const
 
-export const SETTINGS_KEYS: KVStoreKey[] = ['chat.suggestionsEnabled', 'chat.lastModel', 'ui.hasVisitedEasySetup', 'system.earlyAccess', 'ai.assistantCustomName'];
+export type SettingsKey = (typeof SETTINGS_KEYS)[number]

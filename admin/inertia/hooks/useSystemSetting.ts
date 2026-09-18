@@ -1,12 +1,12 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import api from '~/lib/api'
-import { KVStoreKey } from '../../types/kv_store';
+import type { SettingsKey } from '../../constants/kv_store'
 
 export type UseSystemSettingProps = Omit<
   UseQueryOptions<{ key: string; value: any } | undefined>,
   'queryKey' | 'queryFn'
 > & {
-  key: KVStoreKey
+  key: SettingsKey
 }
 
 export const useSystemSetting = (props: UseSystemSettingProps) => {
