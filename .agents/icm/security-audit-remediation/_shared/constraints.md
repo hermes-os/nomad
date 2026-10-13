@@ -33,7 +33,8 @@ Rules for every change made through this pipeline. From `AGENTS.md`,
 
 ## Repository hygiene
 
-- Secrets come from environment variables.
+- Secrets come from environment variables. Nothing credential-shaped enters the
+  tree, logs, or release notes.
 - Keep downloaded content, databases, container volumes, and model files out of
   Git. `.gitignore` already ignores `admin/storage`, `admin/public/assets`,
   `.env`, and `node_modules/`.

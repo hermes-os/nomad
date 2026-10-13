@@ -100,7 +100,7 @@ Contributions are welcome and appreciated! Please read this section fully to und
 ### General Guidelines
 
 - **Open an issue first**: Before starting work on a new feature or bug fix, please open an issue to discuss your proposed changes. This helps ensure that your contribution aligns with the project's goals and avoids duplicate work. Title the issue clearly and provide a detailed description of the problem or feature you want to work on.
-- **Work on `main`**: There are no feature branches. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow.
+- **Work on `main`**: There are no feature branches. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow. Changes intended for the upstream project are proposed to Crosstalk-Solutions/project-nomad following its own CONTRIBUTING.md; this repository does not accept pull requests.
 - **Make your changes**: Follow the existing code style and conventions used in the project. Be sure to test your changes locally to ensure they work as expected.
 - **Add Release Notes**: If your changes include new features, bug fixes, or improvements, please see the "Release Notes" section below to properly document your contribution for the next release.
 - **Conventional Commits**: When committing your changes, please use conventional commit messages to provide clear and consistent commit history. The format is `<type>(<scope>): <description>`, where:
@@ -117,7 +117,7 @@ and automatically updated by semantic-release. For simplicity's sake, the "nomad
 uses the same version defined there instead of the version in `admin/package.json` (stays at 0.0.0), as it's the only published image derived from the code.
 
 ### Release Notes
-Human-readable release notes live in [`admin/docs/release-notes.md`](admin/docs/release-notes.md) and are displayed in the Command Center's built-in documentation.
+Human-readable release notes live in [`admin/docs/release-notes.md`](admin/docs/release-notes.md) and are displayed in the Command Center's built-in documentation. Also add an entry under `## Unreleased` in the root `CHANGELOG.md`, in the same commit. Do not add a release heading.
 
 When working on changes, add a summary to the `## Unreleased` section at the top of that file under the appropriate heading:
 

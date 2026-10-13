@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to Nomad! Community contributions are what keep this project growing and improving. Please read this guide fully before getting started — it will save you (and the maintainers) a lot of time.
 
-> **Note:** Acceptance of contributions is not guaranteed. All contributions are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Nomad reserve the right accept, deny, or modify any contribution at their sole discretion.
+> **Note:** Acceptance of contributions is not guaranteed. All contributions are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Nomad reserve the right to accept, deny, or modify any contribution at their sole discretion.
 
 ---
 
@@ -80,7 +80,7 @@ Because Nomad relies heavily on Docker, we actually recommend against installing
    ```
    `install/` scripts run as root and manage host services. Never execute them on a development machine; test them only in an isolated Debian environment.
 
-4. **Add release notes** (see [Release Notes](#release-notes) below).
+4. **Add release notes** (see [Release Notes](#release-notes) below) and an entry under `## Unreleased` in the root `CHANGELOG.md`, in the same commit. Do not add a release heading.
 
 5. **Commit your changes** using [Conventional Commits](#commit-messages).
 
@@ -119,7 +119,7 @@ chore(deps): bump docker-compose to v2.24
 
 ## Release Notes
 
-Human-readable release notes live in [`admin/docs/release-notes.md`](admin/docs/release-notes.md) and are displayed directly in the Command Center UI.
+Human-readable release notes live in [`admin/docs/release-notes.md`](admin/docs/release-notes.md) and are displayed directly in the Command Center UI. Also add an entry under `## Unreleased` in the root `CHANGELOG.md`, in the same commit. Do not add a release heading.
 
 When your changes include anything user-facing, **add a summary to the `## Unreleased` section** at the top of that file under the appropriate heading:
 
@@ -152,7 +152,7 @@ This project uses [Semantic Versioning](https://semver.org/). Versions are manag
 
 ## Delivery
 
-Pushing, releasing, and deploying are done by the maintainers and are not part of making a change. Open an issue first for anything that changes upstream-facing behavior (see [Before You Start](#before-you-start)).
+Pushing, releasing, and deploying are done by Foreman (the coordinator) and are not part of making a change. Open an issue first for anything that changes upstream-facing behavior (see [Before You Start](#before-you-start)). Changes intended for the upstream project are proposed to Crosstalk-Solutions/project-nomad following its own CONTRIBUTING.md; this repository does not accept pull requests.
 
 ---
 

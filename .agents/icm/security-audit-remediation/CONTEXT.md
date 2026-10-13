@@ -25,7 +25,7 @@ A stage is complete when its job is done and observed, not when a file exists.
 A finding triage rules open but not worth fixing this pass goes in `issues.md`;
 the commit that fixes it later removes the entry. A fresh independent reviewer
 reads the commits after the worker finishes; fixes from the review are new
-commits. Only the coordinator pushes or deploys.
+commits. Only Foreman (the coordinator) pushes or deploys.
 
 ## Factory
 
@@ -40,3 +40,6 @@ commits. Only the coordinator pushes or deploys.
 The audit report lists the findings. It marks findings 10, 11, and 13 accepted
 risk and its two INFORMATIONAL entries by design; those are not work items.
 Findings still open at the time of writing are listed in `issues.md`.
+Already fixed on main: 1-4 (75106a8), 5 (b3a5cd6, e6aa951), 6 (b5a968b); 7 has
+`assertNotPrivateUrl` at `collection_updates_controller.ts:17,25` (75106a8) —
+triage confirms whether manifest lookup is still needed.
