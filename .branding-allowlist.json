@@ -118,5 +118,20 @@
     "path": "admin/tests/unit/nomad_storage_migration.spec.ts",
     "text": "/opt/project-nomad/storage",
     "reason": "The focused migration test proves that persisted legacy bind paths are rewritten."
+  },
+  {
+    "path": "CHANGELOG.md",
+    "text": "Crosstalk-Solutions/project-nomad",
+    "reason": "Guidance names the upstream repository that upstream-bound changes are proposed to."
+  },
+  {
+    "path": "CONTRIBUTING.md",
+    "text": "Crosstalk-Solutions/project-nomad",
+    "reason": "Guidance names the upstream repository that upstream-bound changes are proposed to."
+  },
+  {
+    "path": "README.md",
+    "text": "Crosstalk-Solutions/project-nomad",
+    "reason": "Guidance names the upstream repository that upstream-bound changes are proposed to."
   }
 ]
