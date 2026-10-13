@@ -1,6 +1,6 @@
 # Constraints
 
-Hard rules for every change made through this pipeline. From `AGENTS.md`,
+Rules for every change made through this pipeline. From `AGENTS.md`,
 `CONTRIBUTING.md`, `README.md`, and the audit report's own scope notes.
 
 ## Threat model
@@ -19,8 +19,6 @@ Hard rules for every change made through this pipeline. From `AGENTS.md`,
 ## Change scope
 
 - One finding per pipeline pass. Touch only the lines that finding requires.
-- No drive-by reformatting, renaming, or cleanup. Format only files you edited.
-- No new dependency without explicit approval.
 - Preserve upstream-compatible architecture: AdonisJS 6 + Inertia + React,
   existing `#services/*`-style subpath imports, existing service boundaries.
 - Do not change `admin/package.json` `version` (pinned at `0.0.0`) or the root
@@ -29,13 +27,13 @@ Hard rules for every change made through this pipeline. From `AGENTS.md`,
 ## Host safety
 
 - `install/` runs as root and manages host services and Docker. Never execute
-  anything under `install/` on a development machine. Review those changes by
-  reading, and test them only in an isolated Debian environment.
+  anything under `install/` on a development or worker machine. Check those
+  changes by reading them, and test them only in an isolated Debian
+  environment.
 
 ## Repository hygiene
 
-- Secrets come from environment variables. Nothing credential-shaped enters the
-  tree, logs, or release notes.
+- Secrets come from environment variables.
 - Keep downloaded content, databases, container volumes, and model files out of
   Git. `.gitignore` already ignores `admin/storage`, `admin/public/assets`,
   `.env`, and `node_modules/`.

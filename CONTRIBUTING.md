@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to Nomad! Community contributions are what keep this project growing and improving. Please read this guide fully before getting started — it will save you (and the maintainers) a lot of time.
 
-> **Note:** Acceptance of contributions is not guaranteed. All pull requests are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Nomad reserve the right accept, deny, or modify any pull request at their sole discretion.
+> **Note:** Acceptance of contributions is not guaranteed. All contributions are evaluated based on quality, relevance, and alignment with the project's goals. The maintainers of Nomad reserve the right accept, deny, or modify any contribution at their sole discretion.
 
 ---
 
@@ -15,7 +15,7 @@ Thank you for your interest in contributing to Nomad! Community contributions ar
 - [Commit Messages](#commit-messages)
 - [Release Notes](#release-notes)
 - [Versioning](#versioning)
-- [Submitting a Pull Request](#submitting-a-pull-request)
+- [Delivery](#delivery)
 - [Feedback & Community](#feedback--community)
 
 ---
@@ -51,18 +51,12 @@ When opening an issue:
 - A stable internet connection (required for dependency downloads)
 - Node.js (for frontend/admin work)
 
-### Fork & Clone
+### Clone
 
-1. Click **Fork** at the top right of this repository
-2. Clone your fork locally:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/nomad.git
-   cd nomad
-   ```
-3. Add the upstream remote so you can stay in sync:
-   ```bash
-   git remote add upstream https://github.com/hermes-os/nomad.git
-   ```
+```bash
+git clone https://github.com/hermes-os/nomad.git
+cd nomad
+```
 
 ### Avoid Installing a Release Version Locally
 Because Nomad relies heavily on Docker, we actually recommend against installing a release version of the project on the same local machine where you are developing. This can lead to conflicts with ports, volumes, and other resources. Instead, you can run your development version in a separate Docker environment while keeping your local machine clean. It certainly __can__ be done, but it adds complexity to your setup and workflow. If you choose to install a release version locally, please ensure you have a clear strategy for managing potential conflicts and resource usage.
@@ -71,27 +65,24 @@ Because Nomad relies heavily on Docker, we actually recommend against installing
 
 ## Development Workflow
 
-1. **Sync with upstream** before starting any new work. We prefer rebasing over merge commits to keep a clean, linear git history as much as possible (this also makes it easier for maintainers to review and merge your changes). To sync with upstream:
-   ```bash
-   git fetch upstream
-   git checkout main
-   git rebase upstream/main
-   ```
+1. **Work on `main`.** There are no feature branches.
 
-2. **Create a feature branch** off `main` with a descriptive name:
-   ```bash
-   git checkout -b fix/issue-123
-   # or
-   git checkout -b feature/add-new-tool
-   ```
+2. **Make your changes.** Follow existing code style and conventions. Test your changes locally against a running Nomad instance.
 
-3. **Make your changes.** Follow existing code style and conventions. Test your changes locally against a running Nomad instance before submitting.
+3. **Run the checks** from the repository root before you commit:
+   ```bash
+   npm test
+   npm --prefix admin ci        # first run in a fresh checkout only
+   npm --prefix admin test
+   npm --prefix admin run lint
+   npm --prefix admin run typecheck
+   npm --prefix admin run build
+   ```
+   `install/` scripts run as root and manage host services. Never execute them on a development machine; test them only in an isolated Debian environment.
 
 4. **Add release notes** (see [Release Notes](#release-notes) below).
 
 5. **Commit your changes** using [Conventional Commits](#commit-messages).
-
-6. **Push your branch** and open a pull request.
 
 ---
 
@@ -159,18 +150,9 @@ This project uses [Semantic Versioning](https://semver.org/). Versions are manag
 
 ---
 
-## Submitting a Pull Request
+## Delivery
 
-1. Push your branch to your fork:
-   ```bash
-   git push origin your-branch-name
-   ```
-2. Open a pull request against the `main` branch of this repository
-3. In the PR description:
-   - Summarize what your changes do and why
-   - Reference the related issue (e.g., `Closes #123`)
-   - Note any relevant testing steps or environment details
-4. Be responsive to feedback — maintainers may request changes. Pull requests with no activity for an extended period may be closed.
+Pushing, releasing, and deploying are done by the maintainers and are not part of making a change. Open an issue first for anything that changes upstream-facing behavior (see [Before You Start](#before-you-start)).
 
 ---
 

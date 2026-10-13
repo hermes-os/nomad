@@ -1,12 +1,5 @@
 # Delivery
 
-## Branch
-
-Branch off `main`, one branch per finding, named for the change:
-`vm-cal/fix-content-update-path-traversal`,
-`vm-cal/fix-ssrf-ipv4-mapped-bypass`, `vm-cal/fix-registry-tag-pagination`.
-Do not commit directly to `main`. Do not push unless asked.
-
 ## Commit message
 
 Conventional Commits, per `CONTRIBUTING.md`: `<type>(<scope>): <description>`.
@@ -22,18 +15,29 @@ The body states, in prose:
 
 Example subject: `fix(Security): reject content update paths that escape content storage`
 
-## Release notes
+## Release notes and CHANGELOG
 
-User-visible changes go in `admin/docs/release-notes.md` under `## Unreleased`,
-in `### Features`, `### Bug Fixes`, or `### Improvements`. Format:
-`- **Area**: Description`. Describe the behavior a user now sees, not the code.
+A user-visible change gets two entries in the same commit:
 
-CI stamps the version and date on release; never edit released sections.
+- `admin/docs/release-notes.md` under `## Unreleased`, in `### Features`,
+  `### Bug Fixes`, or `### Improvements`. Format: `- **Area**: Description`.
+  This file is rendered in the UI, so describe the behavior a user now sees,
+  not the code.
+- `CHANGELOG.md` at the repository root under `## Unreleased`.
+
+Never add a release heading and never edit released sections. CI
+(`.github/scripts/finalize-release-notes.sh`) stamps the version and date into
+`admin/docs/release-notes.md` on release; the coordinator does the same for
+`CHANGELOG.md`.
 
 An internal-only change — a refactor with no behavior delta, a test-only
-commit — gets no entry.
+commit — gets no `admin/docs/release-notes.md` entry.
 
-## Pull request
+## Release and deploy
 
-Open against `main`. The description summarizes what changed and why,
-references the issue (`Closes #123`), and names the verification run.
+Releases are cut by `semantic-release` on `main` (`.releaserc.json`; `rc` is
+the prerelease branch) and published by the `workflow_dispatch` workflows in
+`.github/workflows/`, gated by the `DEPLOYMENT_AUTHORIZED_USERS` secret. Hosts
+update through `install/update_nomad.sh` or the in-app sidecar updater
+(`install/sidecar-updater/update-watcher.sh`). Neither path downloads newer
+copies of the install scripts; see `issues.md`.

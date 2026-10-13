@@ -26,13 +26,17 @@ Addresses of the surfaces the audit report names. Paths are repo-root-relative.
 - Suites are declared in `admin/adonisrc.ts`: `unit` (`tests/unit/**/*.spec.ts`,
   2000 ms timeout) and `functional` (`tests/functional/**/*.spec.ts`, 30000 ms).
   No functional specs exist yet.
-- Existing specs: `collection_update_service.spec.ts`, `common_validator.spec.ts`,
-  `container_registry_service.spec.ts`, `env_example.spec.ts`, `fs.spec.ts`.
+- Existing specs are the files in `admin/tests/unit/`.
+- Root tests: `tests/*.test.mjs` (node test runner) and
+  `install/tests/test_dozzle_shell_migration.sh`, both run by `npm test`.
 - Naming: one spec per module, named after the module under test.
 - `admin/config/transmit.ts` disables the Redis transport in test mode, so the
   suite runs without a Redis server.
 
 ## Documents
 
-- `admin/docs/security-audit-v1.md` — the backlog and its severity ordering.
-- `admin/docs/release-notes.md` — user-facing changelog, rendered in the UI.
+- `admin/docs/security-audit-v1.md` — the audit report and its severity ordering.
+- `admin/docs/release-notes.md` — user-facing release notes, rendered in the UI.
+- `CHANGELOG.md` — repo-root change log; every user-visible change gets an
+  `## Unreleased` entry in the same commit.
+- `issues.md` — repo-root list of bugs and gaps found and not yet fixed.

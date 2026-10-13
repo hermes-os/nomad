@@ -100,16 +100,13 @@ Contributions are welcome and appreciated! Please read this section fully to und
 ### General Guidelines
 
 - **Open an issue first**: Before starting work on a new feature or bug fix, please open an issue to discuss your proposed changes. This helps ensure that your contribution aligns with the project's goals and avoids duplicate work. Title the issue clearly and provide a detailed description of the problem or feature you want to work on.
-- **Fork the repository**: Click the "Fork" button at the top right of the repository page to create a copy of the project under your GitHub account.
-- **Create a new branch**: In your forked repository, create a new branch for your work. Use a descriptive name for the branch that reflects the purpose of your changes (e.g., `fix/issue-123` or `feature/add-new-tool`).
-- **Make your changes**: Implement your changes in the new branch. Follow the existing code style and conventions used in the project. Be sure to test your changes locally to ensure they work as expected.
+- **Work on `main`**: There are no feature branches. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow.
+- **Make your changes**: Follow the existing code style and conventions used in the project. Be sure to test your changes locally to ensure they work as expected.
 - **Add Release Notes**: If your changes include new features, bug fixes, or improvements, please see the "Release Notes" section below to properly document your contribution for the next release.
 - **Conventional Commits**: When committing your changes, please use conventional commit messages to provide clear and consistent commit history. The format is `<type>(<scope>): <description>`, where:
   - `type` is the type of change (e.g., `feat` for new features, `fix` for bug fixes, `docs` for documentation changes, etc.)
   - `scope` is an optional area of the codebase that your change affects (e.g., `api`, `ui`, `docs`, etc.)
   - `description` is a brief summary of the change
-- **Submit a pull request**: Once your changes are ready, submit a pull request to the main repository. Provide a clear description of your changes and reference any related issues. The project maintainers will review your pull request and may provide feedback or request changes before it can be merged.
-- **Be responsive to feedback**: If the maintainers request changes or provide feedback on your pull request, please respond in a timely manner. Stale pull requests may be closed if there is no activity for an extended period.
 - **Follow the project's code of conduct**: Please adhere to the project's code of conduct when interacting with maintainers and other contributors. Be respectful and considerate in your communications.
 - **No guarantee of acceptance**: The project is community-driven, and all contributions are appreciated, but acceptance is not guaranteed. The maintainers will evaluate each contribution based on its quality, relevance, and alignment with the project's goals.
 - **Thank you for contributing to Nomad!** Your efforts help make this project better for everyone.

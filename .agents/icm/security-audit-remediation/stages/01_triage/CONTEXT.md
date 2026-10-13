@@ -5,6 +5,7 @@ One job: turn one audit entry into a defect confirmed against today's code.
 ## Inputs
 
 - Reference: `admin/docs/security-audit-v1.md`
+- Reference: `issues.md` (entries here are already confirmed open)
 - Reference: `../../_shared/constraints.md`
 - Reference: `../../_shared/codebase-map.md`
 - Working: `git log --oneline -40` and the source files the entry names
@@ -20,18 +21,15 @@ Do NOT load: anything outside listed inputs.
    have moved and some fixes have landed since.
 3. Pick the highest-severity open finding. On a tie, pick the one whose fix
    touches the fewest files.
-4. Write the confirmed defect: the exact request or input that triggers it, the
+4. State the confirmed defect: the exact request or input that triggers it, the
    current file and line, the observable wrong behavior, the blast radius, and
    whether it has an automated test surface at all.
 5. Hard limits: quote current code, not the report's snippets. Do not propose a
-   fix. Do not edit application code. One finding only.
+   fix here. Do not edit application code. One finding only.
 
 ## Outputs
 
-- Confirmed defect → `output/finding.md`
-- Findings ruled already-fixed, with the commit that fixed each → same file
-
-## Human check
-
-Read `output/finding.md` and confirm the chosen finding is the one to fix next;
-edit the file in place if it is not.
+- Confirmed defect → the commit body of the fix (stage 05), or an `issues.md`
+  entry if it will not be fixed in this pass.
+- Findings ruled already-fixed, with the commit that fixed each → the same
+  commit body. Do not write them to a file.
