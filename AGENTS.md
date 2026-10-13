@@ -23,7 +23,7 @@ READ ~/.agents/AGENTS.md BEFORE ANYTHING (skip if missing).
   rewrite deployed compose files to match.
 - Keep credentials, downloaded content, databases, volumes and model files out of Git.
 - Root `package.json` version belongs to semantic-release. `admin/package.json`
-  stays `0.0.0`. Never add a release heading to any changelog.
+  stays `0.0.0`. Workers never add a release heading to either changelog; CI and Foreman stamp them.
 - Legacy product-name spellings fail `npm run check:branding`. Exceptions go in
   `.branding-allowlist.json`.
 
@@ -32,7 +32,7 @@ Node 24 comes from `.mise.toml`. Run from the repo root:
 ```bash
 npm test                      # branding + install-script tests (root)
 npm --prefix admin ci         # first run only
-npm --prefix admin test       # needs admin/.env or admin/.env.example exported
+npm --prefix admin test       # export admin/.env.example values first; never commit admin/.env
 npm --prefix admin run lint   # fails on main today (issues.md); do not add errors
 npm --prefix admin run typecheck
 npm --prefix admin run build
@@ -46,6 +46,7 @@ A user-visible change gets an `## Unreleased` entry in both
 CI stamps release notes on release; Foreman stamps `CHANGELOG.md`.
 
 ## Delivery
-Work on `main`. Workers commit. Open an issue before upstream-facing changes.
+Work on `main`. Workers commit. Record an upstream-facing change in `issues.md`
+before implementing it; Foreman raises it upstream.
 Only Foreman pushes, releases and deploys (`semantic-release` on `main`,
 `workflow_dispatch` workflows).
