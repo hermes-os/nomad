@@ -15,11 +15,6 @@ Where: `install/update_nomad.sh:118-119`, `install/sidecar-updater/update-watche
 What happens: the anchored `sed` flips any `- DOZZLE_ENABLE_SHELL=true` list item in the file, whichever service it belongs to, and also one inside a `command: |` block. The shipped template has a single occurrence under `dozzle`, so stock installs are unaffected; a hand-edited compose file with a second matching line would be rewritten. An operator who set `true` on purpose is reset on every update.
 How found: direct execution of the expressions against fixture files while verifying e6aa951.
 
-## Dozzle shell change has no release-notes entry
-Where: `admin/docs/release-notes.md` (`## Unreleased`), `CHANGELOG.md`.
-What happens: b3a5cd6 (shell off in the compose template) and e6aa951 (migration on update) change what users see on port 9999, but neither is listed under Unreleased.
-How found: `grep -i dozzle admin/docs/release-notes.md` returns only the v1.x line "Added Dozzle to core containers".
-
 ## `npm --prefix admin run lint` fails on main
 Where: `admin/`, 94 files.
 What happens: exit 1 with 1335 errors and 2 warnings: 1140 `prettier/prettier`, 88 `@adonisjs/prefer-lazy-controller-import`, 36 `@unicorn/prefer-number-properties`, 26 `@unicorn/prefer-node-protocol`, 15 `@unicorn/filename-case`, 11 `@unicorn/no-await-expression-member`, 7 `@typescript-eslint/no-shadow` (`app/utils/fs.ts`, `app/jobs/run_download_job.ts:38`), 6 `@typescript-eslint/naming-convention`, 4 `no-control-regex` (`rag_service.ts:107,109`, `system_service.ts:100`, `benchmark_service.ts:739`), 1 `@unicorn/no-for-loop`, 1 `@tanstack/query/exhaustive-deps` (in generated, git-ignored `admin/public/assets`, present only after a build). The lint step of the gate cannot go green.
