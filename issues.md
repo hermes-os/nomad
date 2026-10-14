@@ -40,7 +40,12 @@ Where: `install/management_compose.yaml:22` (`LOG_LEVEL=debug`; `admin/.env.exam
 What happens: the admin container writes debug output, which can include internal state, to its logs on every deployed host. Audit finding 14.
 How found: `grep LOG_LEVEL install/management_compose.yaml admin/.env.example` at a20a047.
 
-## Production dependencies carry critical and high advisories
-Where: `admin/package-lock.json`.
-What happens: `npm --prefix admin audit --omit=dev` reports 63 vulnerabilities (1 low, 21 moderate, 37 high, 4 critical: `maplibre-gl`, `protobufjs`, `proxy-addr`, `tar`). The audit report listed 2 (finding 12).
-How found: `npm --prefix admin audit --omit=dev` at a20a047, 2026-10-13.
+## Production dependencies still carry one critical and 15 high advisories
+Where: `admin/package.json`, `admin/package-lock.json`.
+What happens: `npm audit fix` (no `--force`) took `npm --prefix admin audit --omit=dev` from 63 (4 critical, 37 high, 21 moderate, 1 low) to 28 (1 critical, 15 high, 12 moderate). What is left needs a major bump, which was not made:
+- `maplibre-gl` (critical, GHSA-jrc7-96c5-q579, XSS sanitizer bypass): vulnerable `<=6.4.0`, declared `^4.7.1`; fix is 6.14.0.
+- `sharp` (high, GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w, bundled libvips, libheif and librsvg): vulnerable `<=0.35.5-rc.1`, declared `^0.34.5`; fix is 0.35.5, outside the 0.34 range.
+- `@adonisjs/core` (high, GHSA-6qvv-pj99-48qm, `@adonisjs/http-server` open redirect, fixed in 7.3.1): declared `^6.18.0`; fix is 7.6.0. Also marks `@adonisjs/presets`, `@adonisjs/vite` (declared `^4.0.0`, fix 6.0.3) and `@adonisjs/lucid` (declared `^21.8.2`, fix 22.4.2) high through it.
+- `@adonisjs/assembler` (declared `^7.8.2`, fix 8.5.2) pulls `fast-glob`, `globby`, `cpy`, `ts-morph` and `@ts-morph/common`; `@adonisjs/vite` pulls `vite-plugin-restart` and `micromatch`, which pull `braces` (GHSA-vfj7-8cjw-p6xm, vulnerable to `<=3.0.3`, no patched 3.x).
+- `@faker-js/faker` (high, GHSA-qxc2-j82w-r537, vulnerable `<=10.4.0`): locked at 9.9.0 under `@adonisjs/lucid@21.8.2`; fixed only through the `@adonisjs/lucid` major.
+How found: `npm --prefix admin audit --omit=dev` after `npm audit fix` at 687f6a7, 2026-10-13.
