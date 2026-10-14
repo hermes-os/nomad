@@ -10,8 +10,8 @@
 - **Security**: Content update requests whose resource id or version would place the downloaded file outside content storage (including in a subdirectory that does not exist) are now rejected with an "Invalid resource id or version" error instead of being written to the requested path or failing mid-download
 
 ### Improvements
-- **Security**: The Dozzle log viewer on port 9999 no longer offers its container shell route on new installs (`DOZZLE_ENABLE_SHELL=false`), and updating an existing install switches the setting to `false` in its deployed compose file
-- **Security**: The admin container in the install compose file now logs at `info` level instead of `debug`, so internal state no longer lands in container logs by default
+- **Security**: The Dozzle log viewer on port 9999 no longer offers its container shell route on new installs (`DOZZLE_ENABLE_SHELL=false`), and updating switches it to `false` on hosts whose updater scripts already include this change; older installs keep the shell route until the installer is re-run
+- **Security**: The admin container in the install compose file now logs at `info` level instead of `debug`, so internal state no longer lands in container logs by default for new installs; existing hosts get it when the compose file is re-downloaded
 - **Security**: Updated production dependencies within their existing version ranges to clear most known critical and high advisories, including `protobufjs`, `proxy-addr`, `tar`, `axios`, `undici`, `vite` and `lodash`
 - **Branding**: Renamed the product and its repository-owned install, package, container, service, and image identifiers to Nomad while preserving existing installation data, bind mounts, and generated credentials during migration
 
