@@ -10,6 +10,7 @@
 - **Security**: Content update requests whose resource id or version would place the downloaded file outside content storage (including in a subdirectory that does not exist) are now rejected with an "Invalid resource id or version" error instead of being written to the requested path or failing mid-download
 
 ### Improvements
+- **Security**: The admin container in the install compose file now logs at `info` level instead of `debug`, so internal state no longer lands in container logs by default
 - **Security**: Updated production dependencies within their existing version ranges to clear most known critical and high advisories, including `protobufjs`, `proxy-addr`, `tar`, `axios`, `undici`, `vite` and `lodash`
 - **Branding**: Renamed the product and its repository-owned install, package, container, service, and image identifiers to Nomad while preserving existing installation data, bind mounts, and generated credentials during migration
 

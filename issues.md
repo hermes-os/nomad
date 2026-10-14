@@ -35,11 +35,6 @@ Where: `admin/start/routes.ts:127` (`POST /api/rag/upload`), `:141` (`POST /api/
 What happens: a client can start benchmarks, upload files or cycle services as fast as it can send requests. Audit finding 9.
 How found: no limiter or throttle in `admin/package.json`, `admin/start` or `admin/config` at a20a047.
 
-## Production compose logs at debug level
-Where: `install/management_compose.yaml:22` (`LOG_LEVEL=debug`; `admin/.env.example` uses `info`).
-What happens: the admin container writes debug output, which can include internal state, to its logs on every deployed host. Audit finding 14.
-How found: `grep LOG_LEVEL install/management_compose.yaml admin/.env.example` at a20a047.
-
 ## Production dependencies still carry one critical and 15 high advisories
 Where: `admin/package.json`, `admin/package-lock.json`.
 What happens: `npm audit fix` (no `--force`) took `npm --prefix admin audit --omit=dev` from 63 (4 critical, 37 high, 21 moderate, 1 low) to 28 (1 critical, 15 high, 12 moderate). What is left needs a major bump, which was not made:
