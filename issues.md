@@ -40,3 +40,8 @@ What happens: `npm audit fix` (no `--force`) took `npm --prefix admin audit --om
 - `@faker-js/faker` (high, GHSA-qxc2-j82w-r537, vulnerable `<=10.4.0`): locked at 9.9.0 under `@adonisjs/lucid@21.8.2`; fixed only through the `@adonisjs/lucid` major.
 - Two moderates are also left: `@adonisjs/http-server` (GHSA-2m6q-8v3h-jqww) and `uuid` `<11.1.1` via `dockerode` (fixed in `dockerode` 5.0.1, a major).
 How found: `npm --prefix admin audit --omit=dev` after `npm audit fix` at 687f6a7, 2026-10-13.
+
+## Main is 511 upstream commits behind, including a security fix
+Where: `main` against `upstream/main` (Crosstalk Solutions, 54ee30a, 2026-10-05).
+What happens: `git cherry main upstream/main` lists 511 upstream commits with no equivalent on main. One is upstream baf16ae "fix(security): rotate benchmark HMAC signing secret"; main still signs benchmarks with the old literal in `admin/app/services/benchmark_service.ts:158`. A host installed from this repository gets the older code.
+How found: `git cherry main upstream/main` and `git log -F -i --grep=HMAC upstream/main` during branch cleanup, 2026-10-13.
