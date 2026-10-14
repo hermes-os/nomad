@@ -32,10 +32,11 @@ How found: no limiter or throttle in `admin/package.json`, `admin/start` or `adm
 
 ## Production dependencies still carry one critical and 15 high advisories
 Where: `admin/package.json`, `admin/package-lock.json`.
-What happens: `npm audit fix` (no `--force`) took `npm --prefix admin audit --omit=dev` from 63 (4 critical, 37 high, 21 moderate, 1 low) to 28 (1 critical, 15 high, 12 moderate). What is left needs a major bump, which was not made:
+What happens: `npm audit fix` (no `--force`) took `npm --prefix admin audit --omit=dev` from 63 (4 critical, 37 high, 21 moderate, 1 low) to 28 (1 critical, 15 high, 12 moderate). What is left needs a major bump, which was not made. "No major bumps" in the fix commit holds for declared dependencies only; the lockfile has three transitive major-version changes, each from a parent update inside its existing range, and admin code imports none of them: `msgpackr` 1.11.5 to 2.0.5 (`bullmq` 5.81.5 pins it exactly), `proxy-from-env` 1.1.0 to 2.1.0 (`axios` 1.20.0), and hoisted `uuid` 11.1.0 to 10.0.0 (`dockerode` 4.0.12).
 - `maplibre-gl` (critical, GHSA-jrc7-96c5-q579, XSS sanitizer bypass): vulnerable `<=6.4.0`, declared `^4.7.1`; fix is 6.14.0.
 - `sharp` (high, GHSA-f88m-g3jw-g9cj, GHSA-rgj7-g3m4-5g8c, GHSA-wq5f-xc86-pv6w, bundled libvips, libheif and librsvg): vulnerable `<=0.35.5-rc.1`, declared `^0.34.5`; fix is 0.35.5, outside the 0.34 range.
 - `@adonisjs/core` (high, GHSA-6qvv-pj99-48qm, `@adonisjs/http-server` open redirect, fixed in 7.3.1): declared `^6.18.0`; fix is 7.6.0. Also marks `@adonisjs/presets`, `@adonisjs/vite` (declared `^4.0.0`, fix 6.0.3) and `@adonisjs/lucid` (declared `^21.8.2`, fix 22.4.2) high through it.
 - `@adonisjs/assembler` (declared `^7.8.2`, fix 8.5.2) pulls `fast-glob`, `globby`, `cpy`, `ts-morph` and `@ts-morph/common`; `@adonisjs/vite` pulls `vite-plugin-restart` and `micromatch`, which pull `braces` (GHSA-vfj7-8cjw-p6xm, vulnerable to `<=3.0.3`, no patched 3.x).
 - `@faker-js/faker` (high, GHSA-qxc2-j82w-r537, vulnerable `<=10.4.0`): locked at 9.9.0 under `@adonisjs/lucid@21.8.2`; fixed only through the `@adonisjs/lucid` major.
+- Two moderates are also left: `@adonisjs/http-server` (GHSA-2m6q-8v3h-jqww) and `uuid` `<11.1.1` via `dockerode` (fixed in `dockerode` 5.0.1, a major).
 How found: `npm --prefix admin audit --omit=dev` after `npm audit fix` at 687f6a7, 2026-10-13.
