@@ -45,3 +45,8 @@ How found: `npm --prefix admin audit --omit=dev` after `npm audit fix` at 687f6a
 Where: `main` against `upstream/main` (Crosstalk Solutions, 54ee30a, 2026-10-05).
 What happens: `git cherry main upstream/main` lists 511 upstream commits with no equivalent on main. One is upstream baf16ae "fix(security): rotate benchmark HMAC signing secret"; main still signs benchmarks with the old literal in `admin/app/services/benchmark_service.ts:158`. A host installed from this repository gets the older code.
 How found: `git cherry main upstream/main` and `git log -F -i --grep=HMAC upstream/main` during branch cleanup, 2026-10-13.
+
+## The admin test gate passes on Node 26 without running any test
+- Where: `admin/adonisrc.ts` line 81, the unit test file pattern `tests/unit/**/*.spec(.ts|.js)`.
+- What happens: on Node 26 the `node:fs` glob matches 0 files for that pattern, so `npm test` in `admin/` prints "NO TESTS EXECUTED" and exits 0. With `*.spec.{ts,js}` it finds 8 files and 30 tests pass.
+- Found: readiness check 220c7297 on f981415, 2026-10-14.
