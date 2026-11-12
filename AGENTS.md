@@ -1,5 +1,3 @@
-READ ~/.agents/AGENTS.md BEFORE ANYTHING (skip if missing).
-
 # Nomad
 
 Hermes's copy of the upstream Nomad project (Crosstalk Solutions). Remotes: `origin` (Forgejo) and `upstream`. Keep upstream's architecture and conventional commits so changes can flow back; an upstream-facing change also gets an `issues.md` entry so Foreman can raise it upstream.

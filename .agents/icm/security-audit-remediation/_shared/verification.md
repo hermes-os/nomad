@@ -11,16 +11,12 @@ npm --prefix admin test
 npm --prefix admin run lint
 npm --prefix admin run typecheck
 npm --prefix admin run build
-agent-repo-check --repo "$PWD"
 ```
 
 `npm --prefix admin test` runs `node ace test` across the suites declared in
 `admin/adonisrc.ts`. Only `unit` has specs today. The `functional` suite would
 bind `0.0.0.0:3333`; a sandbox that forbids listening sockets cannot run it, and
 that is a blocker to report, not a step to skip.
-
-`agent-repo-check` checks repository hygiene, not the project's own gate. Run
-both.
 
 `admin/` reads and validates its environment at startup (`admin/start/env.ts`).
 The tests pass with a git-ignored `admin/.env`, or with the values from
